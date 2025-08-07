@@ -20,7 +20,7 @@ Route::get('/dashboard', function () {
 
 Route::get('/home', function () {
     return Inertia::render('Home');
-})->name('home');
+})->middleware(['auth', 'verified'])->name('home');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -12,7 +12,7 @@ const showingNavigationDropdown = ref(false);
 
 <template>
     <div>
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+        <div class="min-h-screen bg-[#113F67] dark:bg-gray-900">
             <nav
                 class="border-b border-gray-100 bg-white dark:border-gray-700 dark:bg-gray-800"
             >
@@ -23,9 +23,14 @@ const showingNavigationDropdown = ref(false);
                             <!-- Logo -->
                             <div class="flex shrink-0 items-center">
                                 <Link :href="route('dashboard')">
-                                    <ApplicationLogo
-                                        class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200"
-                                    />
+                                    <div class="flex items-center px-4">
+                                        <img
+                                            src="/images/logo.png"
+                                            alt="Logo FADAT"
+                                            class="h-8 w-auto sm:h-10 md:h-12"
+                                            style="max-width:120px"
+                                        />
+                                    </div>
                                 </Link>
                             </div>
 
@@ -38,6 +43,13 @@ const showingNavigationDropdown = ref(false);
                                     :active="route().current('dashboard')"
                                 >
                                     Dashboard
+                                </NavLink>
+
+                                <NavLink
+                                    :href="route('home')"
+                                    :active="route().current('home')"
+                                >
+                                    Home
                                 </NavLink>
                             </div>
                         </div>
