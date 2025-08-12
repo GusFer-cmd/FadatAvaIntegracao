@@ -62,10 +62,10 @@ function handleImageError() {
         <main class="flex justify-center items-center min-h-[calc(100vh-56px)] px-4">
             <div class="block w-full max-w-lg md:max-w-2xl p-6 md:p-10 bg-white border border-gray-200 rounded-2xl shadow-2xl">
                 <h5 class="mb-2 text-xl md:text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
-                    Bem-vindo ao FADAT INTEGRAÇÃO
+                    Bem-vindo ao FADAT ALOCAÇÃO DE SALAS
                 </h5>
                 <p class="font-normal text-gray-700 dark:text-gray-400">
-                    Esta é uma aplicação de integração da FADAT para com os processos do AVA.
+                    Esta é uma aplicação para agendamento de salas.
                 </p>
                 <p class="mt-4 text-xs md:text-sm text-gray-500 dark:text-gray-400">
                     Laravel Version: {{ laravelVersion }}<br />

@@ -5,6 +5,9 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 
+use App\Repositories\Interfaces\ICourseRepository;
+use App\Repositories\Eloquent\CourseRepository;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -12,7 +15,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(
+            ICourseRepository::class, 
+            CourseRepository::class
+        );
     }
 
     /**
