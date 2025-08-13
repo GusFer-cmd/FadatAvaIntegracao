@@ -6,21 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str; 
 
-class Course extends Model
+class Subject extends Model
 {
     use HasFactory;
-
-    protected $table = 'courses';
-
+    protected $table = 'subjects';
     public $incrementing = false;
     protected $keyType = 'string';
 
     protected $fillable = [
         'id',
-        'name',
+        'semester',
+        'course_id',
     ];
 
-    // Gerar UUID ao criar
     protected static function boot()
     {
         parent::boot();
@@ -32,8 +30,8 @@ class Course extends Model
         });
     }
 
-    public function subjects()
+    public function course()
     {
-        return $this->hasMany(Subject::class, 'course_id', 'id');
+        return $this->belongsTo(Course::class, 'course_id', 'id');
     }
 }

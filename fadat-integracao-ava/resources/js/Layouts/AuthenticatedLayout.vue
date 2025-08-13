@@ -52,7 +52,7 @@ const showingNavigationDropdown = ref(false);
                                     Cursos
                                 </NavLink>
 
-                                 <NavLink
+                                <NavLink
                                     :href="route('professor.index')"
                                     :active="route().current('professor.index')"
                                 >

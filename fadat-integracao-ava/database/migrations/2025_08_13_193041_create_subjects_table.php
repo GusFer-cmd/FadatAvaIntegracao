@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('professors', function (Blueprint $table) {
+        Schema::create('subjects', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('name', 100);
-
+            $table->unsignedSmallInteger('semester');
+            $table->string('course_id')->nullable();
+        
             $table->timestamps();
+
+            $table->foreign('course_id')->references('id')->on('courses')->nullOnDelete();
         });
     }
 
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('professors');
+        Schema::dropIfExists('subjects');
     }
 };
