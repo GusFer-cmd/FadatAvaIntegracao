@@ -7,30 +7,30 @@ import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
 const props = defineProps({
-    course: {
+    professor: {
         type: Object,
         required: true
     },
 });
 
 const form = useForm({
-    name: props.course.name || 'Curso não encontrado',
+    name: props.professor.name || 'Curso não encontrado',
 });
 
 const submit = () => {
-    form.put(route('course.update', props.course.id));
+    form.put(route('professor.update', props.professor.id));
 };
 </script>
 
 <template>
-    <Head title="Course Update" />
+    <Head title="Professor Update" />
 
     <AuthenticatedLayout>
         <template #header>
                 <div class="flex items-baseline justify-between mb-6">
-                    <h1 class="text-3xl font-semibold">Atualizar Curso</h1>
+                    <h1 class="text-3xl font-semibold">Atualizar Professor(a)</h1>
                     <Link
-                        :href="route('course.index')"
+                        :href="route('professor.index')"
                         class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
                     >
                     Voltar

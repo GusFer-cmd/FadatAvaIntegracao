@@ -14,9 +14,9 @@ class CourseController extends Controller
     public function index(CourseService $courseService)
     {   
         if (!Auth::check())
-            return redirect()->route('pages.home')->with("Não foi possível contiuar. Tente novamente"); 
+            return redirect()->route('home')->with("Não foi possível contiuar. Tente novamente"); 
         
-         $courses = $courseService->getAll();
+        $courses = $courseService->getAll();
 
         return Inertia::render('Course/Index', [
             'courses' => $courses,
@@ -26,7 +26,7 @@ class CourseController extends Controller
     public function create(CourseService $courseService)
     {
         if (!Auth::check())
-            return redirect()->route('pages.home')->with("Não foi possível contiuar. Tente novamente"); 
+            return redirect()->route('home')->with("Não foi possível contiuar. Tente novamente"); 
 
         $courses = $courseService->getAll();
 
@@ -48,8 +48,10 @@ class CourseController extends Controller
         return redirect()->route('course.index')->with('success', 'Curso criado com sucesso!');
     }
     
-    public function edit(string $id, CourseService $courseService)
+    public function edit(string $encodedId, CourseService $courseService)
     {   
+        $id = base64_decode($encodedId);
+
         $course = $courseService->getById($id); 
 
         return Inertia::render('Course/Update', [
@@ -60,6 +62,7 @@ class CourseController extends Controller
     public function update(string $id, CourseService $courseService, CourseRequest $request)
     {
         $data = [
+            'id' => $id,
             'name' => $request->name,
         ];
 

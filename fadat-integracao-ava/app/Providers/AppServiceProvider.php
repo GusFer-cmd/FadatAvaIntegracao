@@ -7,6 +7,8 @@ use Illuminate\Support\ServiceProvider;
 
 use App\Repositories\Interfaces\ICourseRepository;
 use App\Repositories\Eloquent\CourseRepository;
+use App\Repositories\Eloquent\ProfessorRepository;
+use App\Repositories\Interfaces\IProfessorRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -18,6 +20,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             ICourseRepository::class, 
             CourseRepository::class
+        );
+
+        $this->app->bind(
+            IProfessorRepository::class, 
+            ProfessorRepository::class
         );
     }
 

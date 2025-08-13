@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Course\CourseController;
+use App\Http\Controllers\Professor\ProfessorController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -32,10 +33,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/course', [CourseController::class, 'index'])->name('course.index');
     Route::get('/course/create', [CourseController::class, 'create'])->name('course.create');
     Route::post('/course', [CourseController::class, 'store'])->name('course.store');
-    Route::get('/course/{id}/edit', [CourseController::class, 'edit'])->name('course.edit');
+    Route::get('/course/edit/{encodedId}', [CourseController::class, 'edit'])->name('course.edit');
     Route::put('/course/{id}', [CourseController::class, 'update'])->name('course.update');
     Route::delete('/course/{id}', [CourseController::class, 'delete'])->name('course.delete');
 
+    // ROTA PROFESSORES
+    Route::get('/professor', [ProfessorController::class, 'index'])->name('professor.index');
+    Route::get('/professor/create', [ProfessorController::class, 'create'])->name('professor.create');
+    Route::post('/professor', [ProfessorController::class, 'store'])->name('professor.store');
+    Route::get('/professor/edit/{encodedId}', [ProfessorController::class, 'edit'])->name('professor.edit');
+    Route::put('/professor/{id}', [ProfessorController::class, 'update'])->name('professor.update');
+    Route::delete('/professor/{id}', [ProfessorController::class, 'delete'])->name('professor.delete');
 });
 
 require __DIR__.'/auth.php';
