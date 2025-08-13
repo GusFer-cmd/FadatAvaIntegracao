@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 interface ICourseRepository
 {
     public function getAll(): Collection;
-    public function getById(int $id): ?Course;
+    public function getById(string $id): ?Course;
     public function exists(string $name): ?Course;
     public function update(Course &$course, array $data): bool;
     public function delete(Course $course): ?bool;

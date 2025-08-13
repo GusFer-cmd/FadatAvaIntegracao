@@ -1,32 +1,41 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { router, Head, Link } from '@inertiajs/vue3';
 
 defineProps({
   courses: {
     type: Array,
     default: () => [],
   },
-})
+});
 
-const editCourse = (course) => {
-  console.log('Editar', course)
-}
+const editCourse = (course) => { 
+  router.get(route('course.edit', course.id))
+};
 
 const removeCourse = (course) => {
-  console.log('Remover', course)
-}
+  if (confirm(`Deseja realmente deletar o curso "${course.name}"?`)) {
+    router.delete(route('course.delete', course.id));
+  }
+};
 </script>
 
 <template>
-    <Head title="Index Course" />
+    <Head title="Course Index" />
 
     <AuthenticatedLayout>
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 p-6 text-gray-900 dark:text-gray-100">
-                
-                <h1 class="text-3xl font-semibold mb-6">Cursos</h1>
+                <div class="flex items-baseline justify-between mb-2">
+                  <h1 class="text-3xl font-semibold mb-6">Cursos</h1>
+                    <Link
+                      :href="route('course.create')"
+                      class="px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      Criar Curso
+                    </Link>
+                </div>
                 
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                     <div v-for="course in courses" :key="course.id" class="bg-white rounded-lg shadow p-5 flex flex-col justify-between dark:bg-gray-700">

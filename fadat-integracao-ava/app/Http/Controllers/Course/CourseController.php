@@ -45,19 +45,19 @@ class CourseController extends Controller
         Log::info('Curso criado com sucesso: ' . $course->id . ' - ' . $course->name);
         Log::info('Curso criado por: ' . Auth::id() . ' - ' . Auth::user()?->name);
     
-        return redirect()->route('courses.index')->with('success', 'Curso criado com sucesso!');
+        return redirect()->route('course.index')->with('success', 'Curso criado com sucesso!');
     }
     
-    public function edit(int $id, CourseService $courseService)
-    {
-        $course = $courseService->getById($id);
+    public function edit(string $id, CourseService $courseService)
+    {   
+        $course = $courseService->getById($id); 
 
-        return Inertia::render('Course/Edit', [
+        return Inertia::render('Course/Update', [
             'course' => $course,
         ]);
     }
 
-    public function update(int $id, CourseService $courseService, CourseRequest $request)
+    public function update(string $id, CourseService $courseService, CourseRequest $request)
     {
         $data = [
             'name' => $request->name,
@@ -70,7 +70,7 @@ class CourseController extends Controller
         return redirect()->route('course.index')->with('success','Curso atualizado com sucesso');
     }
 
-    public function destroy(int $id, CourseService $courseService)
+    public function delete(string $id, CourseService $courseService)
     {
         $course = $courseService->getById($id);
         

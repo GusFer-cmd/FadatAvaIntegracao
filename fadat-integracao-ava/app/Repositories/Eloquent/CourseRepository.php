@@ -13,7 +13,7 @@ class CourseRepository implements ICourseRepository
         return Course::all();
     }
 
-    public function getById(int $id): ?Course
+    public function getById(string $id): ?Course
     {
         return Course::find($id);
     }

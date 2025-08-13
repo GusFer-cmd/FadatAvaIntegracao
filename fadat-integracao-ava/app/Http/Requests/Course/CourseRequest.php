@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Request\Course;
+namespace App\Http\Requests\Course;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -20,6 +20,13 @@ class CourseRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:100'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'O nome é obrigatório.',
         ];
     }
 }

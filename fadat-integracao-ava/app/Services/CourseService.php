@@ -21,7 +21,7 @@ class CourseService
         return $this->repository->getAll();
     }
 
-    public function getById(int $id): ?Course
+    public function getById(string $id): ?Course
     {
         $course = $this->repository->getById($id);
         if ($course === null)
@@ -50,7 +50,7 @@ class CourseService
         return $course;
     }
     
-    public function delete(int $id)
+    public function delete(string $id)
     {
         $course = $this->repository->getById($id);
         if ($course === null)
