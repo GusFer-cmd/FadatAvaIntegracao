@@ -6,17 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str; 
 
-class Course extends Model
+class Classroom extends Model
 {
     use HasFactory;
 
-    protected $table = 'courses';
+    protected $table = 'classrooms';
     public $incrementing = false;
     protected $keyType = 'string';
 
     protected $fillable = [
         'id',
-        'name',
+        'class_number',
+        'person_class',
+        'academic_building',
     ];
 
     // Gerar UUID ao criar
@@ -29,10 +31,5 @@ class Course extends Model
                 $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
-    }
-
-    public function subjects()
-    {
-        return $this->hasMany(Subject::class, 'course_id', 'id');
     }
 }

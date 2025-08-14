@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Course\CourseController;
 use App\Http\Controllers\Professor\ProfessorController;
 use App\Http\Controllers\Subject\SubjectController;
+use App\Http\Controllers\Classroom\ClassroomController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -53,6 +54,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/subject/edit/{encodedId}', [SubjectController::class, 'edit'])->name('subject.edit');
     Route::put('/subject/{id}', [SubjectController::class, 'update'])->name('subject.update');
     Route::delete('/subject/{id}', [SubjectController::class, 'delete'])->name('subject.delete');
+
+    // ROTA SALAS
+    Route::get('/classroom', [ClassroomController::class, 'index'])->name('classroom.index');
+    Route::get('/classroom/create', [ClassroomController::class, 'create'])->name('classroom.create');
+    Route::post('/classroom', [ClassroomController::class, 'store'])->name('classroom.store');
+    Route::get('/classroom/edit/{encodedId}', [ClassroomController::class, 'edit'])->name('classroom.edit');
+    Route::put('/classroom/{id}', [ClassroomController::class, 'update'])->name('classroom.update');
+    Route::delete('/classroom/{id}', [ClassroomController::class, 'delete'])->name('classroom.delete');
 });
 
 require __DIR__.'/auth.php';

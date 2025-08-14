@@ -15,7 +15,7 @@ const editSubject = (subject) => {
 };
 
 const removeSubject = (subject) => {
-  if (confirm(`Deseja realmente deletar o curso "${subject.name}"?`)) {
+  if (confirm(`Deseja realmente deletar a disciplina "${subject.name}"?`)) {
     router.delete(route('subject.delete', subject.id));
   }
 };
@@ -47,7 +47,7 @@ const removeSubject = (subject) => {
                             <button
                                 @click="editSubject(subject)"
                                 class="text-blue-600 hover:text-blue-800 transition"
-                                aria-label="Editar curso"
+                                aria-label="Editar disciplina"
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -59,7 +59,7 @@ const removeSubject = (subject) => {
                             <button
                                 @click="removeSubject(subject)"
                                 class="text-red-600 hover:text-red-800 transition"
-                                aria-label="Remover curso"
+                                aria-label="Remover disciplina"
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

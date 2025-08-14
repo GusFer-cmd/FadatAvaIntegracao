@@ -65,6 +65,13 @@ const showingNavigationDropdown = ref(false);
                                 >
                                     Disciplinas
                                 </NavLink>
+
+                                <NavLink
+                                    :href="route('classroom.index')"
+                                    :active="route().current('classroom.index')"
+                                >
+                                    Salas
+                                </NavLink>
                             </div>
                         </div>
 
@@ -191,6 +198,13 @@ const showingNavigationDropdown = ref(false);
                             :active="route().current('subject.index')"
                         >
                             Disciplinas
+                        </ResponsiveNavLink>
+
+                         <ResponsiveNavLink
+                            :href="route('classroom.index')"
+                            :active="route().current('classroom.index')"
+                        >
+                            Salas
                         </ResponsiveNavLink>
                     </div>
 
