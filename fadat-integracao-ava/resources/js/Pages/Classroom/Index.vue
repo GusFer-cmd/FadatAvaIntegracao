@@ -46,6 +46,7 @@ const removeClassroom = (classroom) => {
                             </div>
                             <div v-else>
                                 <h2 class="text-xl font-medium text-gray-800 dark:text-gray-100 truncate">Bloco: {{ classroom.academic_building || 'Sala Virtual' }}</h2>
+                                <span class="text-md text-gray-700 dark:text-gray-300">Link da sala: {{ classroom.url }}</span>
                             </div>
                             
                             <div class="mt-4 flex space-x-3 justify-end">

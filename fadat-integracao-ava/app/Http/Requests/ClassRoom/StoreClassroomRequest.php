@@ -25,6 +25,7 @@ class StoreClassroomRequest extends FormRequest
             'class_number' => 'required|integer|max:2',
             'person_class' => 'required|in:PR,ED,HI',
             'academic_building' => 'nullable|string|max:1',
+            'url' => 'nullable|string|max:150',
         ];
     }
 
@@ -37,6 +38,7 @@ class StoreClassroomRequest extends FormRequest
             'person_class.required' => 'O campo "Tipo de aula" é obrigatório.',
             'academic_building.string' => 'O campo "Bloco" deve espera somente um caractere.',
             'academic_building.max' => 'O campo "Bloco" não pode ter mais de 1 caractere.',
+            'url.max' => 'O campo "URL" não pode ter mais de 150 caracteres.',
         ];
     }
 }

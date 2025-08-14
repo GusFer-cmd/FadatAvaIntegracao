@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedSmallInteger('class_number');
             $table->enum('person_class', ['PR', 'ED', 'HI'])->default('PR');
             $table->char('academic_building', 1)->nullable();
+            $table->string('url', 150)->nullable();
             $table->timestamps();
         });
     }

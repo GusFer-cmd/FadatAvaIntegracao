@@ -15,22 +15,26 @@ const props = defineProps({
 });
 
 const showAcademicBuilding = ref(false);
+const showUrl = ref(false);
 
 const form = useForm({
     class_number: '',
     person_class: '',
     academic_building: '',
+    url: '',
 });
 
-watch(
-    () => form.person_class,
-        (newVal) => {
-            showAcademicBuilding.value = newVal === 'PR' || newVal === 'HI';
-            if (newVal !== 'PR') {
-                form.academic_building = '';
-            }
-    }
-);
+watch(() => form.person_class, (newVal) => {
+    showAcademicBuilding.value = newVal === 'PR' || newVal === 'HI';
+        if (newVal !== 'PR' && newVal !== 'HI') {
+            form.academic_building = '';
+        }
+   
+        showUrl.value = newVal === 'ED';
+        if (newVal !== 'ED') {
+            form.url = '';
+        }
+});
 
 const submit = () => {
     form.post(route('classroom.store'));
@@ -115,6 +119,20 @@ const submit = () => {
                             />
 
                             <InputError class="mt-2" :message="form.errors.academic_building" />
+                        </div>
+
+                        <div v-if="showUrl">
+                            <InputLabel for="url" value="Link da chamada" class="text-white" />
+                            
+                            <TextInput
+                                id="url"
+                                type="text"
+                                class="mt-1 block w-full"
+                                v-model="form.url"
+                                autocomplete="url"
+                            />
+
+                            <InputError class="mt-2" :message="form.errors.url" />
                         </div>
 
                         <div class="flex justify-end">

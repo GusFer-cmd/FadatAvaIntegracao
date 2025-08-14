@@ -42,7 +42,8 @@ class ClassroomController extends Controller
         $data = [
             'class_number' => $request->class_number,
             'person_class' => $request->person_class,
-            'academic_building' => $request->academic_building
+            'academic_building' => $request->academic_building,
+            'url' => $request->url
         ];
 
         $classroom = $classroomService->create($data);
@@ -69,7 +70,8 @@ class ClassroomController extends Controller
             'id' => $id,
             'class_number' => $request->class_number,
             'person_class' => $request->person_class,
-            'academic_building' => $request->academic_building
+            'academic_building' => $request->academic_building,
+            'url' => $request->url
         ];
 
         $classroom = $classroomService->update($data);

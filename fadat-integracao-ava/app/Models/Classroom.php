@@ -19,6 +19,7 @@ class Classroom extends Model
         'class_number',
         'person_class',
         'academic_building',
+        'url'
     ];
 
     // Gerar UUID ao criar

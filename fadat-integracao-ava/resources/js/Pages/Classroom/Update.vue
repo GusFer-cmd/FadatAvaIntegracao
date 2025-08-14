@@ -20,17 +20,20 @@ const form = useForm({
     class_number: props.classroom.class_number || '',
     person_class: props.classroom.person_class || '',
     academic_building: props.classroom.academic_building || '',
+    url: props.classroom.url || '',
 });
 
-watch(
-    () => form.person_class,
-        (newVal) => {
-            showAcademicBuilding.value = newVal === 'PR' || newVal === 'HI';
-            if (newVal !== 'PR') {
-                form.academic_building = '';
-            }
-    }
-);
+watch(() => form.person_class, (newVal) => {
+    showAcademicBuilding.value = newVal === 'PR' || newVal === 'HI';
+        if (newVal !== 'PR' && newVal !== 'HI') {
+            form.academic_building = '';
+        }
+   
+        showUrl.value = newVal === 'ED';
+        if (newVal !== 'ED') {
+            form.url = '';
+        }
+});
 
 const submit = () => {
     form.put(route('classroom.update', props.classroom.id));
@@ -115,6 +118,20 @@ const submit = () => {
                             />
 
                             <InputError class="mt-2" :message="form.errors.academic_building" />
+                        </div>
+
+                        <div v-if="showUrl">
+                            <InputLabel for="url" value="Link da chamada" class="text-white" />
+                            
+                            <TextInput
+                                id="url"
+                                type="text"
+                                class="mt-1 block w-full"
+                                v-model="form.url"
+                                autocomplete="url"
+                            />
+
+                            <InputError class="mt-2" :message="form.errors.url" />
                         </div>
 
                         <div class="flex justify-end">
