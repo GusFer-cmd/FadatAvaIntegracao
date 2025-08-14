@@ -6,21 +6,24 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str; 
 
-class Professors extends Model
+class Roombooking extends Model
 {
     use HasFactory;
 
-    protected $table = 'professors';
+    protected $table = 'roombookings';
 
     public $incrementing = false;
     protected $keyType = 'string';
 
     protected $fillable = [
         'id',
-        'name',
+        'start_date_time',
+        'end_date_time',
+        'professor_id',
+        'subject_id',
+        'classroom_id',
     ];
 
-    // Gerar UUID ao criar
     protected static function boot()
     {
         parent::boot();
