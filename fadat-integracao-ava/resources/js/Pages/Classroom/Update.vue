@@ -25,7 +25,7 @@ const form = useForm({
 watch(
     () => form.person_class,
         (newVal) => {
-            showAcademicBuilding.value = newVal === 'PR';
+            showAcademicBuilding.value = newVal === 'PR' || newVal === 'HI';
             if (newVal !== 'PR') {
                 form.academic_building = '';
             }
