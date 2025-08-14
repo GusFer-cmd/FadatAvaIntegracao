@@ -24,9 +24,9 @@ const submit = () => {
                     <h1 class="text-3xl font-semibold">Cadastrar Curso</h1>
                     <Link
                         :href="route('course.index')"
-                        class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                        class="px-4 py-2 border border-gray-500 text-gray-700 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500"
                     >
-                    Voltar
+                        Voltar
                     </Link>
                 </div>
         </template>
@@ -34,29 +34,31 @@ const submit = () => {
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <form @submit.prevent="submit" class="space-y-4">
-                    <div>
-                        <InputLabel for="name" value="Nome" class="text-white" />
-                        
-                        <TextInput
-                            id="name"
-                            type="text"
-                            class="mt-1 block w-full"
-                            v-model="form.name"
-                            autofocus
-                            autocomplete="name"
-                        />
+                    <div class="mx-4 space-y-4">
+                        <div>
+                            <InputLabel for="name" value="Nome" class="text-white" />
+                            
+                            <TextInput
+                                id="name"
+                                type="text"
+                                class="mt-1 block w-full"
+                                v-model="form.name"
+                                autofocus
+                                autocomplete="name"
+                            />
 
-                        <InputError class="mt-2" :message="form.errors.name" />
-                    </div>
+                            <InputError class="mt-2" :message="form.errors.name" />
+                        </div>
 
-                    <div class="flex justify-end">
-                        <PrimaryButton
-                            class="ms-4"
-                            :class="{ 'opacity-25': form.processing }"
-                            :disabled="form.processing"
-                        >
-                            Salvar
-                        </PrimaryButton>
+                        <div class="flex justify-end">
+                            <PrimaryButton
+                                class="ms-4"
+                                :class="{ 'opacity-25': form.processing }"
+                                :disabled="form.processing"
+                            >
+                                Salvar
+                            </PrimaryButton>
+                        </div>
                     </div>
                 </form>
             </div>

@@ -87,6 +87,13 @@ const submit = () => {
                     Esqueceu sua senha?
                 </Link>
 
+                <Link
+                    :href="route('register')"
+                    class="mx-2 rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
+                >
+                    Não possui conta?
+                </Link>
+
                 <PrimaryButton
                     class="ms-4"
                     :class="{ 'opacity-25': form.processing }"

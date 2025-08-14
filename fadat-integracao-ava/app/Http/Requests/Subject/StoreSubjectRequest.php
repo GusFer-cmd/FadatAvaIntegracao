@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Subject\Requests;
+namespace App\Http\Requests\Subject;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -22,6 +22,7 @@ class StoreSubjectRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'name' => ['required', 'string', 'max:100'],
             'semester' => ['required', 'integer', 'min:1', 'max:10'],
             'course_id' => ['nullable', 'string', 'exists:courses,id'],
         ];
@@ -30,6 +31,9 @@ class StoreSubjectRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'name.required' => 'O nome da disciplina é obrigatório.',
+            'name.string' => 'O nome da disciplina deve ser uma string.',
+            'name.max' => 'O nome da disciplina não pode ter mais de 100 caracteres',
             'semester.required' => 'O semestre é obrigatório.',
             'semester.integer' => 'O semestre deve ser um número inteiro.',
             'semester.min' => 'O semestre deve ser pelo menos 1.',

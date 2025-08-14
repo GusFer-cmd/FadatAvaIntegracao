@@ -5,10 +5,12 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 
-use App\Repositories\Interfaces\ICourseRepository;
 use App\Repositories\Eloquent\CourseRepository;
+use App\Repositories\Interfaces\ICourseRepository;
 use App\Repositories\Eloquent\ProfessorRepository;
 use App\Repositories\Interfaces\IProfessorRepository;
+use App\Repositories\Eloquent\SubjectRepository;
+use App\Repositories\Interfaces\ISubjectRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,6 +27,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             IProfessorRepository::class, 
             ProfessorRepository::class
+        );
+
+        $this->app->bind(
+            ISubjectRepository::class, 
+            SubjectRepository::class
         );
     }
 

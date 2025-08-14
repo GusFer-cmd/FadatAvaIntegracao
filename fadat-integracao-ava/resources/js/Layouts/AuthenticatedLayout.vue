@@ -58,6 +58,13 @@ const showingNavigationDropdown = ref(false);
                                 >
                                     Professores
                                 </NavLink>
+
+                                <NavLink
+                                    :href="route('subject.index')"
+                                    :active="route().current('subject.index')"
+                                >
+                                    Disciplinas
+                                </NavLink>
                             </div>
                         </div>
 
@@ -177,6 +184,13 @@ const showingNavigationDropdown = ref(false);
                             :active="route().current('professor.index')"
                         >
                             Professores
+                        </ResponsiveNavLink>
+
+                        <ResponsiveNavLink
+                            :href="route('subject.index')"
+                            :active="route().current('subject.index')"
+                        >
+                            Disciplinas
                         </ResponsiveNavLink>
                     </div>
 

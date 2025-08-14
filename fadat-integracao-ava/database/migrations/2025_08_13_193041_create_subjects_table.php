@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('subjects', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->string('name', 100);
             $table->unsignedSmallInteger('semester');
             $table->string('course_id')->nullable();
         
