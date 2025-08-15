@@ -5,32 +5,17 @@ import { Pencil, Trash2 } from 'lucide-vue-next';
 
 const props = defineProps({
     roombookings: Array,
-    professors: Array,
-    subjects: Array,
-    classrooms: Array,
 });
 
-const editRoomboking = (roomboking) => { 
-    const encodedId = btoa(roomboking.id);
+const editRoomboking = (roombooking) => { 
+    const encodedId = btoa(roombooking.id);
     router.get(route('roomboking.edit', encodedId));
 };
 
-const removeRoomboking = (roomboking) => {
-    if (confirm(`Deseja realmente deletar a sala "${roomboking.class_number}"?`)) {
-        router.delete(route('roomboking.delete', roomboking.id));
+const removeRoomboking = (roombooking) => {
+    if (confirm('Deseja realmente deletar o agendamento da sala?')) {
+        router.delete(route('roomboking.delete', roombooking.id));
     }
-};
-
-const getClassroomName = (id) => {
-    const classroom = props.classrooms.find(c => c.id === id);
-    return classroom
-        ? `${classroom.class_number} (${classroom.academic_building})`
-        : 'Sala não encontrada';
-};
-
-const getProfessorName = (id) => {
-    const professor = props.professors.find(p => p.id === id);
-    return professor ? professor.name : 'Professor não encontrado';
 };
 
 const formatDateBR = (dateString) => {
@@ -53,9 +38,8 @@ const formatDateBR = (dateString) => {
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 p-6 text-gray-900 dark:text-gray-100">
-                    
                     <div class="flex items-center justify-between mb-6">
-                        <h1 class="text-3xl font-semibold">Agendamentos de Salas</h1>
+                        <h1 class="text-2xl sm:text-3xl font-semibold">Agendamentos de Salas</h1>
                         <Link
                             :href="route('roomboking.create')"
                             class="px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -66,7 +50,7 @@ const formatDateBR = (dateString) => {
 
                     <div class="overflow-x-auto">
                         <table class="min-w-full border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden">
-                            <thead class="bg-gray-100 dark:bg-gray-700">
+                            <thead class="bg-gray-100 dark:bg-gray-700 hidden sm:table-header-group">
                                 <tr>
                                     <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Sala</th>
                                     <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Data</th>
@@ -74,31 +58,41 @@ const formatDateBR = (dateString) => {
                                     <th class="px-6 py-3 text-right text-sm font-semibold text-gray-700 dark:text-gray-300">Ações</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="block sm:table-row-group">
                                 <tr
-                                    v-for="roomboking in roombookings"
-                                    :key="roomboking.id"
-                                    class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition"
+                                    v-for="roombooking in roombookings"
+                                    :key="roombooking.id"
+                                    class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition block sm:table-row mb-4 sm:mb-0"
                                 >
-                                    <td class="px-6 py-4 text-gray-900 dark:text-gray-100 font-medium">
-                                        {{ getClassroomName(roomboking.classroom_id) }}
+                                    <td class="px-6 py-4 text-gray-900 dark:text-gray-100 font-medium block sm:table-cell">
+                                        <span class="font-semibold sm:hidden">Sala: </span>
+                                        {{ roombooking.classroom
+                                            ? (roombooking.classroom.academic_building
+                                                ? `${roombooking.classroom.class_number} - Bloco: (${roombooking.classroom.academic_building})`
+                                                : `${roombooking.classroom.class_number} - Sala Virtual - ${roombooking.classroom.url}`)
+                                            : 'Sala não encontrada' }}
                                     </td>
-                                    <td class="px-6 py-4 text-gray-700 dark:text-gray-300">
-                                        {{ formatDateBR(roomboking.start_date_time) }}
+
+                                    <td class="px-6 py-4 text-gray-700 dark:text-gray-300 block sm:table-cell">
+                                        <span class="font-semibold sm:hidden">Data: </span>
+                                        {{ formatDateBR(roombooking.start_date_time) }}
                                     </td>
-                                    <td class="px-6 py-4 text-gray-700 dark:text-gray-300">
-                                        {{ getProfessorName(roomboking.professor_id) }}
+
+                                    <td class="px-6 py-4 text-gray-700 dark:text-gray-300 block sm:table-cell">
+                                        <span class="font-semibold sm:hidden">Professor: </span>
+                                        {{ roombooking.professor?.name ?? 'Professor não encontrado' }}
                                     </td>
-                                    <td class="px-6 py-4 text-right space-x-3 flex justify-end">
+
+                                    <td class="px-6 py-4 text-right space-x-3 flex justify-end block sm:table-cell">
                                         <button
-                                            @click="editRoomboking(roomboking)"
+                                            @click="editRoomboking(roombooking)"
                                             class="text-blue-600 hover:text-blue-800 transition"
                                             aria-label="Editar agendamento"
                                         >
                                             <Pencil class="w-5 h-5" />
                                         </button>
                                         <button
-                                            @click="removeRoomboking(roomboking)"
+                                            @click="removeRoomboking(roombooking)"
                                             class="text-red-600 hover:text-red-800 transition"
                                             aria-label="Deletar agendamento"
                                         >

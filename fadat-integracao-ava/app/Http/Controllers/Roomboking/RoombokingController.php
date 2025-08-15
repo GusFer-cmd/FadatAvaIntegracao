@@ -47,6 +47,8 @@ class RoombokingController extends Controller
             'subjects' => $subjects,
             'classrooms' => $classrooms,
         ]);
+
+
     }
 
     public function store(RoombookingService $roombookingService, StoreRoombokingRequest $request)
@@ -102,7 +104,7 @@ class RoombokingController extends Controller
         return redirect()->route('roomboking.index')->with('success', 'Agendamento de sala atualizado com sucesso!');
     }
 
-    public function destroy(string $id, RoombookingService $roombookingService)
+    public function delete(string $id, RoombookingService $roombookingService)
     {
         $roombookingService->delete($id);
 

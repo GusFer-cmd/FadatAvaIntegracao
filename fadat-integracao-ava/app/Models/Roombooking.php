@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str; 
+use App\Models\Classroom;
+use App\Models\Professors;
+use App\Models\Subject;
 
 class Roombooking extends Model
 {
@@ -33,5 +36,20 @@ class Roombooking extends Model
                 $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
+    }
+
+     public function classroom()
+    {
+        return $this->belongsTo(Classroom::class);
+    }
+
+    public function professor()
+    {
+        return $this->belongsTo(Professors::class);
+    }
+
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class);
     }
 }

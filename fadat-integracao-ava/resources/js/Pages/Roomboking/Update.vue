@@ -57,7 +57,7 @@ const submit = () => {
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <form @submit.prevent="submit" class="space-y-4">
-                    <div class="mx-4 space -y-4">
+                    <div class="mx-4 space-y-4">
                         <div>
                             <InputLabel for="start_date_time" value="Data e Hora de Início" class="text-white" />
                             
@@ -125,11 +125,16 @@ const submit = () => {
                             <select
                                 id="classroom_id"
                                 v-model="form.classroom_id"
-                                class="mt-1 block w-full bg-white border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
+                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600"
                             >
                                 <option value="">Selecione uma sala</option>
-                                <option v-for="classroom in classrooms" :key="classroom.id" :value="classroom.id">
-                                    {{ classroom.class_number }} - {{ classroom.academic_building || 'Sem identificação' }}
+                                <option 
+                                    v-for="classroom in classrooms" 
+                                    :key="classroom.id" 
+                                    :value="classroom.id"
+                                >
+                                    Sala: {{ classroom.class_number }} - 
+                                    {{ classroom.person_class === 'ED' ? 'Sala Virtual' : 'Bloco: ' + classroom.academic_building }}
                                 </option>
                             </select>
 

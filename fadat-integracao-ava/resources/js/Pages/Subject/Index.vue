@@ -1,6 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { router, Head, Link } from '@inertiajs/vue3';
+import { Pencil, Trash2 } from 'lucide-vue-next';
 
 defineProps({
     subjects: {
@@ -49,11 +50,7 @@ const removeSubject = (subject) => {
                                 class="text-blue-600 hover:text-blue-800 transition"
                                 aria-label="Editar disciplina"
                             >
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M15.232 5.232l3.536 3.536M9 11l6-6m-6 6L5 19a2 2 0 002 2l6-6" />
-                                </svg>
+                                <Pencil class="w-5 h-5" />
                             </button>
                             
                             <button
@@ -61,11 +58,7 @@ const removeSubject = (subject) => {
                                 class="text-red-600 hover:text-red-800 transition"
                                 aria-label="Remover disciplina"
                             >
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M6 18L18 6M6 6l12 12" />
-                                </svg>
+                                <Trash2 class="w-5 h-5" />
                             </button>
                         </div>
                     </div>

@@ -11,7 +11,7 @@ class RoombookingRepository implements IRoombookingRepository
 {
     public function getAll(): Collection
     {
-        return Roombooking::all();
+        return Roombooking::with(['classroom', 'professor', 'subject'])->get();
     }
 
     public function getById(string $id): ?Roombooking
@@ -51,18 +51,25 @@ class RoombookingRepository implements IRoombookingRepository
 
     public function getByProfessorId(string $professorId): Collection
     {
-        return Roombooking::where('professor_id', $professorId)->get();
+        return Roombooking::with(['classroom', 'professor'])
+            ->where('professor_id', $professorId)
+            ->get();
     }
 
     public function getByClassroomId(string $classroomId): Collection
     {
-        return Roombooking::where('classroom_id', $classroomId)->get();
+        return Roombooking::with(['classroom', 'professor'])
+            ->where('classroom_id', $classroomId)
+            ->get();
     }
 
     public function getBySubjectId(string $subjectId): Collection
     {
-        return Roombooking::where('subject_id', $subjectId)->get();
+        return Roombooking::with(['classroom', 'professor'])
+            ->where('subject_id', $subjectId)
+            ->get();
     }
+
 
     public function getByDateRange(string $startDate, string $endDate): Collection
     {
