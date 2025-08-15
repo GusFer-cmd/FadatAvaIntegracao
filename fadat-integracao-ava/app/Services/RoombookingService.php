@@ -37,23 +37,37 @@ class RoombookingService
 
     public function create(array $data): Roombooking
     {
-        return $this->repository->create($data);
-    }
+        $start = Carbon::parse($data['start_date_time']);
+        $end   = Carbon::parse($data['end_date_time']);
 
-    public function exists(array $data, ?string $excludeId = null): ?Roombooking
-    {
-        return $this->repository->exists($data, $excludeId);
+        $conflicts = $this->repository->getConflicts( $data['classroom_id'], $data['professor_id'], $start, $end);
+
+        if ($conflicts->isNotEmpty()) {
+            throw new RoombookingConflictException();
+        }
+
+        return $this->repository->create($data);
     }
 
     public function update(array $data): Roombooking
     {
         $roombooking = $this->repository->getById($data['id']);
+
         if ($roombooking === null) {
             throw new RoombookingNotFoundException();
         }
 
+        $start = Carbon::parse($data['start_date_time']);
+        $end   = Carbon::parse($data['end_date_time']);
+
+        $conflicts = $this->repository->getConflicts( $data['classroom_id'], $data['professor_id'], $start, $end, $data['id']);
+
+        if ($conflicts->isNotEmpty()) {
+            throw new RoombookingConflictException();
+        }
+
         $this->repository->update($roombooking, $data);
-        
+
         return $roombooking;
     }
     

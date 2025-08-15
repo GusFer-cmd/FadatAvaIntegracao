@@ -15,9 +15,9 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->timestamp('start_date_time');
             $table->timestamp('end_date_time');
-            $table->unisigedBigInteger('professor_id');
-            $table->unsignedBigInteger('subject_id');
-            $table->unsignedBigInteger('classroom_id');
+            $table->string('professor_id');
+            $table->string('subject_id');
+            $table->string('classroom_id');
 
             $table->timestamps();
 

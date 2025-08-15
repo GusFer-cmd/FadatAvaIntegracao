@@ -5,6 +5,7 @@ use App\Http\Controllers\Course\CourseController;
 use App\Http\Controllers\Professor\ProfessorController;
 use App\Http\Controllers\Subject\SubjectController;
 use App\Http\Controllers\Classroom\ClassroomController;
+use App\Http\Controllers\Roomboking\RoombokingController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -62,6 +63,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/classroom/edit/{encodedId}', [ClassroomController::class, 'edit'])->name('classroom.edit');
     Route::put('/classroom/{id}', [ClassroomController::class, 'update'])->name('classroom.update');
     Route::delete('/classroom/{id}', [ClassroomController::class, 'delete'])->name('classroom.delete');
+
+    // ROTA AGENDAMENTO DE SALAS
+    Route::get('/roomboking', [RoombokingController::class, 'index'])->name('roomboking.index');
+    Route::get('/roomboking/create', [RoombokingController::class, 'create'])->name('roomboking.create');
+    Route::post('/roomboking', [RoombokingController::class, 'store'])->name('roomboking.store');
+    Route::get('/roomboking/edit/{encodedId}', [RoombokingController::class, 'edit'])->name('roomboking.edit');
+    Route::put('/roomboking/{id}', [RoombokingController::class, 'update'])->name('roomboking.update');
+    Route::delete('/roomboking/{id}', [RoombokingController::class, 'destroy'])->name('roomboking.destroy');
 });
 
 require __DIR__.'/auth.php';

@@ -24,34 +24,29 @@ class RoombookingRepository implements IRoombookingRepository
         return Roombooking::create($data);
     }
 
-    public function exists(array $data, ?string $excludeId = null): ?Roombooking
-    {
-        $start = Carbon::parse($data['start_date_time']);
-        $end = Carbon::parse($data['end_date_time']);
-
+    public function getConflicts( string $classroomId, string $professorId, Carbon $start, Carbon $end, ?string $excludeId = null): Collection {
         $query = Roombooking::query();
 
-        $conflictPeriod = function($q, $column, $value) use ($start, $end) {
-            $q->where($column, $value)
-            ->where(function($q2) use ($start, $end) {
-                $q2->where(function($q3) use ($start, $end) {
-                    $q3->where('start_date_time', '<', $end)
-                        ->where('end_date_time', '>', $start);
-                });
-            });
-        };
-
-        $conflictPeriod($query, 'classroom_id', $data['classroom_id']);
-
-        $query->orWhere(function($q) use ($conflictPeriod, $data) {
-            $conflictPeriod($q, 'professor_id', $data['professor_id']);
+        // Conflito de sala
+        $query->where(function ($q) use ($classroomId, $start, $end) {
+            $q->where('classroom_id', $classroomId)
+              ->where('start_date_time', '<', $end)
+              ->where('end_date_time', '>', $start);
         });
 
+        // Conflito de professor
+        $query->orWhere(function ($q) use ($professorId, $start, $end) {
+            $q->where('professor_id', $professorId)
+              ->where('start_date_time', '<', $end)
+              ->where('end_date_time', '>', $start);
+        });
+
+        // Excluir agendamento específico (usado em update)
         if ($excludeId) {
             $query->where('id', '<>', $excludeId);
         }
 
-        return $query->first();
+        return $query->get();
     }
 
     public function getByProfessorId(string $professorId): Collection

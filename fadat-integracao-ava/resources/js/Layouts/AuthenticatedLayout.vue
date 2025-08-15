@@ -46,6 +46,13 @@ const showingNavigationDropdown = ref(false);
                                 </NavLink>
 
                                 <NavLink
+                                    :href="route('roomboking.index')"
+                                    :active="route().current('roomboking.index')"
+                                >
+                                    Agendamento de Salas
+                                </NavLink>
+
+                                <NavLink
                                     :href="route('course.index')"
                                     :active="route().current('course.index')"
                                 >
@@ -179,6 +186,14 @@ const showingNavigationDropdown = ref(false);
                         >
                             Dashboard
                         </ResponsiveNavLink>
+
+                        <ResponsiveNavLink
+                            :href="route('roomboking.index')"
+                            :active="route().current('roomboking.index')"
+                        >
+                            Agendamento de Salas
+                        </ResponsiveNavLink>
+
                         <ResponsiveNavLink
                             :href="route('course.index')"
                             :active="route().current('course.index')"

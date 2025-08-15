@@ -12,6 +12,8 @@ use App\Repositories\Eloquent\SubjectRepository;
 use App\Repositories\Interfaces\ISubjectRepository;
 use App\Repositories\Eloquent\ClassroomRepository;
 use App\Repositories\Interfaces\IClassroomRepository;
+use App\Repositories\Eloquent\RoombookingRepository;
+use App\Repositories\Interfaces\IRoombookingRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -38,6 +40,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             IClassroomRepository::class, 
             ClassroomRepository::class
+        );
+
+        $this->app->bind(
+            IRoombookingRepository::class, 
+            RoombookingRepository::class
         );
     }
 
