@@ -15,15 +15,21 @@ use Inertia\Inertia;
 
 class RoombokingController extends Controller
 {
-    public function index(RoombookingService $roombookingService)
+    public function index(RoombookingService $roombookingService, ProfessorService $professorService, SubjectService $subjectService, ClassroomService $classroomService)
     {
         if (!Auth::check())
             return redirect()->route('home')->with("Não foi possível contiuar. Tente novamente");
 
         $roombookings = $roombookingService->getAll();
+        $professors = $professorService->getAll();
+        $subjects = $subjectService->getAll();
+        $classrooms = $classroomService->getAll();
 
         return Inertia::render('Roomboking/Index', [
             'roombookings' => $roombookings,
+            'professors' => $professors,
+            'subjects' => $subjects,
+            'classrooms' => $classrooms,
         ]);
     }
 
@@ -46,8 +52,8 @@ class RoombokingController extends Controller
     public function store(RoombookingService $roombookingService, StoreRoombokingRequest $request)
     {
         $data = [
-            'start_date_time' => $request->start_time,
-            'end_date_time' => $request->end_time,
+            'start_date_time' => $request->start_date_time,
+            'end_date_time' => $request->end_date_time,
             'professor_id' => $request->professor_id,
             'subject_id' => $request->subject_id,
             'classroom_id' => $request->classroom_id,
@@ -81,8 +87,8 @@ class RoombokingController extends Controller
     {
         $data = [
             'id' => $id,
-            'start_date_time' => $request->start_time,
-            'end_date_time' => $request->end_time,
+            'start_date_time' => $request->end_date_time,
+            'end_date_time' => $request->end_date_time,
             'professor_id' => $request->professor_id,
             'subject_id' => $request->subject_id,
             'classroom_id' => $request->classroom_id,

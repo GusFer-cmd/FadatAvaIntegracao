@@ -15,9 +15,9 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->timestamp('start_date_time');
             $table->timestamp('end_date_time');
-            $table->string('professor_id');
-            $table->string('subject_id');
-            $table->string('classroom_id');
+            $table->string('professor_id')->nullable();
+            $table->string('subject_id')->nullable();
+            $table->string('classroom_id')->nullable();
 
             $table->timestamps();
 

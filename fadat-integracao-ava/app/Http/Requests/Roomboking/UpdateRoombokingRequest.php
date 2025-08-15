@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Roomboking;
 
-use Illuminate\Foundation\Http\Roomboking\FormRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRoombookingRequest extends FormRequest
+class UpdateRoombokingRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

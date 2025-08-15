@@ -94,7 +94,6 @@ const submit = () => {
                                 class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600"
                             >
                                 <option value="">Selecione um professor</option>
-                                <!-- Assuming professors is passed as a prop -->
                                 <option v-for="professor in professors" :key="professor.id" :value="professor.id">
                                     {{ professor.name }}
                                 </option>
@@ -112,7 +111,6 @@ const submit = () => {
                                 class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600"
                             >
                                 <option value="">Selecione uma disciplina</option>
-                                <!-- Assuming subjects is passed as a prop -->
                                 <option v-for="subject in subjects" :key="subject.id" :value="subject.id">
                                     {{ subject.name }}
                                 </option>
@@ -130,9 +128,13 @@ const submit = () => {
                                 class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600"
                             >
                                 <option value="">Selecione uma sala</option>
-                                <!-- Assuming classrooms is passed as a prop -->
-                                <option v-for="classroom in classrooms" :key="classroom.id" :value="classroom.id">
-                                    {{ classroom.class_number }}
+                                <option 
+                                    v-for="classroom in classrooms" 
+                                    :key="classroom.id" 
+                                    :value="classroom.id"
+                                >
+                                    Sala: {{ classroom.class_number }} - 
+                                    {{ classroom.person_class === 'ED' ? 'Sala Virtual' : 'Bloco: ' + classroom.academic_building }}
                                 </option>
                             </select>
 
