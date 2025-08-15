@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str; 
 use App\Models\Classroom;
 use App\Models\Professors;
+use App\Models\Course;
 use App\Models\Subject;
 
 class Roombooking extends Model
@@ -51,5 +52,10 @@ class Roombooking extends Model
     public function subject()
     {
         return $this->belongsTo(Subject::class);
+    }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
     }
 }

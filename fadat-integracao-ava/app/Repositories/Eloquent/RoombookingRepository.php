@@ -11,7 +11,7 @@ class RoombookingRepository implements IRoombookingRepository
 {
     public function getAll(): Collection
     {
-        return Roombooking::with(['classroom', 'professor', 'subject'])->get();
+        return Roombooking::with(['classroom', 'professor', 'subject', 'course'])->get();
     }
 
     public function getById(string $id): ?Roombooking
@@ -27,14 +27,17 @@ class RoombookingRepository implements IRoombookingRepository
     public function getConflicts( string $classroomId, string $professorId, Carbon $start, Carbon $end, ?string $excludeId = null): Collection {
         $query = Roombooking::query();
 
-        // Conflito de sala
         $query->where(function ($q) use ($classroomId, $start, $end) {
             $q->where('classroom_id', $classroomId)
-              ->where('start_date_time', '<', $end)
-              ->where('end_date_time', '>', $start);
+            ->whereHas('classroom', function ($q2) use ($classroomId) {
+                $q2->where('person_class', function($query) use ($classroomId) {
+                    $query->where('person_class', 'PR')->orWhere('person_class', 'ED');
+                });
+            })
+                ->where('start_date_time', '<', $end)
+                ->where('end_date_time', '>', $start);
         });
-
-        // Conflito de professor
+        
         $query->orWhere(function ($q) use ($professorId, $start, $end) {
             $q->where('professor_id', $professorId)
               ->where('start_date_time', '<', $end)
@@ -70,7 +73,22 @@ class RoombookingRepository implements IRoombookingRepository
             ->get();
     }
 
+    public function search(?string $searchTerm = ''): Collection
+    {
+    return Roombooking::with(['classroom', 'professor', 'subject.course'])
+        ->whereHas('professor', function ($query) use ($searchTerm) {
+            $query->where('name', 'like', '%' . $searchTerm . '%');
+        })
+        ->orWhereHas('subject', function ($query) use ($searchTerm) {
+            $query->where('name', 'like', '%' . $searchTerm . '%')
+                ->orWhereHas('course', function ($q) use ($searchTerm) {
+                    $q->where('name', 'like', '%' . $searchTerm . '%');
+                });
+        })
+        ->get();
+    }
 
+    
     public function getByDateRange(string $startDate, string $endDate): Collection
     {
         $start = Carbon::parse($startDate);

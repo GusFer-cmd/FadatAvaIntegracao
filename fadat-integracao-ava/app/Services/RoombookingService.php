@@ -39,7 +39,7 @@ class RoombookingService
     public function create(array $data): Roombooking
     {
         $start = Carbon::parse($data['start_date_time']);
-        $end   = Carbon::parse($data['end_date_time']);
+        $end = Carbon::parse($data['end_date_time']);
 
         $conflicts = $this->repository->getConflicts( $data['classroom_id'], $data['professor_id'], $start, $end);
 
@@ -48,6 +48,46 @@ class RoombookingService
         }
 
         return $this->repository->create($data);
+    }
+
+    public function getByProfessorId(string $professorId): Collection
+    {
+        $roombookings = $this->repository->getByProfessorId($professorId);
+
+        if ($roombookings->isEmpty()) {
+            throw new ProfessorNotFoundException();
+        }
+
+        return $roombookings;
+    }
+
+    public function getByClassroomId(string $classroomId): Collection
+    {
+        $roombookings = $this->repository->getByClassroomId($classroomId);
+
+        if ($roombookings->isEmpty()) {
+            throw new ClassroomNotFoundException();
+        }
+
+        return $roombookings;
+    }
+
+    public function getBySubjectId(string $subjectId): Collection
+    {
+        $roombookings = $this->repository->getBySubjectId($subjectId);
+
+        if ($roombookings->isEmpty()) {
+            throw new SubjectNotFoundException();
+        }
+
+        return $roombookings;
+    }
+
+    public function search(?string $searchTerm = ''): Collection
+    {
+        $search = $this->repository->search($searchTerm);
+
+        return $search;
     }
 
     public function update(array $data): Roombooking

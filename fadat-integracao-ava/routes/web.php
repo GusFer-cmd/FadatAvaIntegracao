@@ -66,6 +66,7 @@ Route::middleware('auth')->group(function () {
 
     // ROTA AGENDAMENTO DE SALAS
     Route::get('/roomboking', [RoombokingController::class, 'index'])->name('roomboking.index');
+    Route::get('/roomboking/search', [RoombokingController::class, 'search'])->name('roomboking.search');
     Route::get('/roomboking/create', [RoombokingController::class, 'create'])->name('roomboking.create');
     Route::post('/roomboking', [RoombokingController::class, 'store'])->name('roomboking.store');
     Route::get('/roomboking/edit/{encodedId}', [RoombokingController::class, 'edit'])->name('roomboking.edit');

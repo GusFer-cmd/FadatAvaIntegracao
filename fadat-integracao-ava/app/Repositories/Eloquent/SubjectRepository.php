@@ -10,7 +10,7 @@ class SubjectRepository implements ISubjectRepository
 {
     public function getAll(): Collection
     {
-        return Subject::all();
+        return Subject::with('course')->get();
     }
 
     public function getById(string $id): ?Subject

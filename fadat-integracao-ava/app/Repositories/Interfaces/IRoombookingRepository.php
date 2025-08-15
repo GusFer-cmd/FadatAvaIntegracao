@@ -15,6 +15,7 @@ interface IRoombookingRepository
     public function getByProfessorId(string $professorId): Collection;
     public function getByClassroomId(string $classroomId): Collection;
     public function getBySubjectId(string $subjectId): Collection;
+    public function search(?string $searchTerm = ''): Collection;
     public function getByDateRange(string $startDate, string $endDate): Collection;
     public function update(Roombooking &$roombooking, array $data): bool;
     public function delete(Roombooking $roombooking): ?bool;

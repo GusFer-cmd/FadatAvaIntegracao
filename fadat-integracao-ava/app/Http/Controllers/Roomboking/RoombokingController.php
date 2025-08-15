@@ -4,32 +4,45 @@ namespace App\Http\Controllers\Roomboking;
 
 use App\Http\Requests\Roomboking\StoreRoombokingRequest;
 use App\Http\Requests\Roomboking\UpdateRoombokingRequest;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\RoombookingService;
 use App\Services\ProfessorService;
 use App\Services\SubjectService;
 use App\Services\ClassroomService;
+use App\Services\CourseService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class RoombokingController extends Controller
 {
-    public function index(RoombookingService $roombookingService, ProfessorService $professorService, SubjectService $subjectService, ClassroomService $classroomService)
+    public function index(RoombookingService $roombookingService, CourseService $courseService)
     {
         if (!Auth::check())
             return redirect()->route('home')->with("Não foi possível contiuar. Tente novamente");
 
         $roombookings = $roombookingService->getAll();
-        $professors = $professorService->getAll();
-        $subjects = $subjectService->getAll();
-        $classrooms = $classroomService->getAll();
+        $courses = $courseService->getAll();
 
         return Inertia::render('Roomboking/Index', [
             'roombookings' => $roombookings,
-            'professors' => $professors,
-            'subjects' => $subjects,
-            'classrooms' => $classrooms,
+            'courses' => $courses,
+        ]);
+    }
+
+    public function search(Request $request, RoombookingService $roombookingService, CourseService $courseService)
+    {
+        if (!Auth::check())
+            return redirect()->route('home')->with("Não foi possível contiuar. Tente novamente");
+
+        $searchTerm = $request->input('search', '');
+        $courses = $courseService->getAll();
+        $roombookings = $roombookingService->search($searchTerm);
+
+        return Inertia::render('Roomboking/Index', [
+            'roombookings' => $roombookings,
+            'courses' => $courses,
         ]);
     }
 
