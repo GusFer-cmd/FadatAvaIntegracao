@@ -11,6 +11,8 @@ const form = useForm({
     email: '',
     password: '',
     password_confirmation: '',
+    active: true,
+    access_level: '0',
 });
 
 const submit = () => {
@@ -91,6 +93,26 @@ const submit = () => {
                     :message="form.errors.password_confirmation"
                 />
             </div>
+
+            <!-- <div class="mt-4">
+                <InputLabel for="access_level" value="Nível de Acesso"/>
+
+                <select
+                    id="access_level"
+                    v-model="form.access_level"
+                    class="mt-1 block w-full border-gray-300 dark:border-gray-700 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-100"
+                >
+                    <option value="0">Estudante</option>
+                    <option value="10">Monitor</option>
+                    <option value="20">Professor</option>
+                    <option value="40">Coordenador</option>
+                    <option value="60">Gerente</option>
+                    <option value="80">Administrador</option>
+                    <option value="99">Super Administrador</option>
+                </select>
+
+                <InputError class="mt-2" :message="form.errors.access_level" />
+            </div> -->
 
             <div class="mt-4 flex items-center justify-end">
                 <Link

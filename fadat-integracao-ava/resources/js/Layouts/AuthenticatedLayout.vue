@@ -5,9 +5,13 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link } from '@inertiajs/vue3';
+import { usePage, Link } from '@inertiajs/vue3';
 
 const showingNavigationDropdown = ref(false);
+
+const { props } = usePage();
+const user = props.auth.user;
+
 </script>
 
 <template>
@@ -53,6 +57,7 @@ const showingNavigationDropdown = ref(false);
                                 </NavLink>
 
                                 <NavLink
+                                    v-if="user.access_level >= 10"
                                     :href="route('course.index')"
                                     :active="route().current('course.index')"
                                 >
@@ -60,6 +65,7 @@ const showingNavigationDropdown = ref(false);
                                 </NavLink>
 
                                 <NavLink
+                                    v-if="user.access_level >= 10"
                                     :href="route('professor.index')"
                                     :active="route().current('professor.index')"
                                 >
@@ -67,6 +73,7 @@ const showingNavigationDropdown = ref(false);
                                 </NavLink>
 
                                 <NavLink
+                                    v-if="user.access_level >= 10"
                                     :href="route('subject.index')"
                                     :active="route().current('subject.index')"
                                 >
@@ -74,6 +81,7 @@ const showingNavigationDropdown = ref(false);
                                 </NavLink>
 
                                 <NavLink
+                                    v-if="user.access_level >= 10"
                                     :href="route('classroom.index')"
                                     :active="route().current('classroom.index')"
                                 >

@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('roombookings', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->timestamp('start_date_time');
-            $table->timestamp('end_date_time');
+            $table->tinyInteger('day_of_week'); // 0=Dom, 1=Seg
+            $table->time('start_time');
+            $table->time('end_time');
             $table->string('professor_id')->nullable();
             $table->string('subject_id')->nullable();
             $table->string('classroom_id')->nullable();

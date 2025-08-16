@@ -37,16 +37,8 @@ const removeRoomboking = (roombooking) => {
     }
 };
 
-const formatDateBR = (dateString) => {
-    if (!dateString) return '';
-    const date = new Date(dateString);
-    return date.toLocaleString('pt-BR', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
+const formatHour = (time) => {
+    return time ? time.split(':').slice(0, 2).join(':') : '';
 };
 </script>
 
@@ -57,22 +49,24 @@ const formatDateBR = (dateString) => {
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 p-6 text-gray-900 dark:text-gray-100">
-                    <div class="flex items-center justify-between mb-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
                         <h1 class="text-2xl sm:text-3xl font-semibold">Agendamentos de Salas</h1>
                         
-                        <input
-                            type="text"
-                            v-model="searchTerm"
-                            placeholder="Nome do Professor, Curso ou Disciplina..."
-                            class="w-full sm:w-80 px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-100"
-                        />
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-4 w-full sm:w-auto">
+                            <input
+                                type="text"
+                                v-model="searchTerm"
+                                placeholder="Nome do Professor, Curso ou Disciplina..."
+                                class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-100 w-full sm:w-80"
+                            />
 
-                        <Link
-                            :href="route('roomboking.create')"
-                            class="px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        >
-                            Criar Agendamento
-                        </Link>
+                            <Link
+                                :href="route('roomboking.create')"
+                                class="px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-auto text-center"
+                            >
+                                Criar Agendamento
+                            </Link>
+                        </div>
                     </div>
 
                     <div class="overflow-x-auto">
@@ -80,7 +74,7 @@ const formatDateBR = (dateString) => {
                             <thead class="bg-gray-100 dark:bg-gray-700 hidden sm:table-header-group">
                                 <tr>
                                     <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Sala</th>
-                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Data</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Horário</th>
                                     <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Curso</th>
                                     <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Disciplina</th>
                                     <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Professor</th>
@@ -93,36 +87,36 @@ const formatDateBR = (dateString) => {
                                     :key="roombooking.id"
                                     class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition block sm:table-row mb-4 sm:mb-0"
                                 >
-                                    <td class="px-6 py-4 text-gray-900 dark:text-gray-100 font-medium block sm:table-cell">
+                                    <td class="px-4 sm:px-6 py-3 text-gray-900 dark:text-gray-100 font-medium block sm:table-cell">
                                         <span class="font-semibold sm:hidden">Sala: </span>
                                         {{ roombooking.classroom
                                             ? (roombooking.classroom.academic_building
-                                                ? `${roombooking.classroom.class_number} - Bloco: (${roombooking.classroom.academic_building})`
-                                                : `${roombooking.classroom.class_number} - Sala Virtual`)
+                                                ? `Bloco: ${roombooking.classroom.academic_building} - (Sala ${roombooking.classroom.class_number})`
+                                                : `Virtual - (Sala ${roombooking.classroom.class_number})`)
                                             : 'Sala não encontrada' }}
                                     </td>
 
-                                    <td class="px-6 py-4 text-gray-700 dark:text-gray-300 block sm:table-cell">
-                                        <span class="font-semibold sm:hidden">Data: </span>
-                                        {{ formatDateBR(roombooking.start_date_time) }}
+                                    <td class="px-4 sm:px-6 py-3 text-gray-700 dark:text-gray-300 block sm:table-cell">
+                                        <span class="font-semibold sm:hidden">Horário: </span>
+                                        {{ formatHour(roombooking.start_time) }} - {{ formatHour(roombooking.end_time) }}
                                     </td>
 
-                                    <td class="px-6 py-4 text-gray-700 dark:text-gray-300 block sm:table-cell">
+                                    <td class="px-4 sm:px-6 py-3 text-gray-700 dark:text-gray-300 block sm:table-cell">
                                         <span class="font-semibold sm:hidden">Curso: </span>
                                         {{ getCourseName(roombooking.subject.course_id) ?? 'Curso não encontrado' }}
                                     </td>
 
-                                    <td class="px-6 py-4 text-gray-700 dark:text-gray-300 block sm:table-cell">
+                                    <td class="px-4 sm:px-6 py-3 text-gray-700 dark:text-gray-300 block sm:table-cell">
                                         <span class="font-semibold sm:hidden">Disciplina: </span>
                                         {{ roombooking.subject?.name ?? 'Disciplina não encontrada' }}
                                     </td>
 
-                                    <td class="px-6 py-4 text-gray-700 dark:text-gray-300 block sm:table-cell">
+                                    <td class="px-4 sm:px-6 py-3 text-gray-700 dark:text-gray-300 block sm:table-cell">
                                         <span class="font-semibold sm:hidden">Professor: </span>
                                         {{ roombooking.professor?.name ?? 'Professor não encontrado' }}
                                     </td>
 
-                                    <td class="px-6 py-4 text-right space-x-3 flex justify-end sm:table-cell">
+                                    <td class="px-4 sm:px-6 py-3 text-right space-x-3 flex justify-end sm:table-cell">
                                         <button
                                             @click="editRoomboking(roombooking)"
                                             class="text-blue-600 hover:text-blue-800 transition"

@@ -11,7 +11,7 @@ interface IRoombookingRepository
     public function getAll(): Collection;
     public function getById(string $id): ?Roombooking;
     public function create(array $data): Roombooking;
-    public function getConflicts( string $classroomId, string $professorId, Carbon $start, Carbon $end, ?string $excludeId = null): Collection;
+    public function getConflictsByDayAndTime( int $dayOfWeek, string $startTime, string $endTime, ?string $classroomId = null, ?string $professorId = null, ?string $excludeId = null): Collection;
     public function getByProfessorId(string $professorId): Collection;
     public function getByClassroomId(string $classroomId): Collection;
     public function getBySubjectId(string $subjectId): Collection;

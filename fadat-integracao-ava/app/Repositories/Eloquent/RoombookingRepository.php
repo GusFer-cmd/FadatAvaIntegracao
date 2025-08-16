@@ -24,20 +24,26 @@ class RoombookingRepository implements IRoombookingRepository
         return Roombooking::create($data);
     }
 
-    public function getConflicts(string $classroomId, string $professorId, Carbon $start, Carbon $end, ?string $excludeId = null): Collection
+    public function getConflictsByDayAndTime(int $dayOfWeek, string $startTime, string $endTime, ?string $classroomId = null, ?string $professorId = null, ?string $excludeId = null): Collection
     {
         $query = Roombooking::query();
 
-        $query->where(function ($q) use ($classroomId, $start, $end) {
-            $q->where('classroom_id', $classroomId)
-                ->where('start_date_time', '<', $end)
-                ->where('end_date_time', '>', $start);
+        $query->where(function($q) use ($dayOfWeek, $startTime, $endTime, $classroomId) {
+            if ($classroomId) {
+                $q->where('day_of_week', $dayOfWeek)
+                ->where('classroom_id', $classroomId)
+                ->where('start_time', '<', $endTime)
+                ->where('end_time', '>', $startTime);
+            }
         });
 
-        $query->orWhere(function ($q) use ($professorId, $start, $end) {
-            $q->where('professor_id', $professorId)
-                ->where('start_date_time', '<', $end)
-                ->where('end_date_time', '>', $start);
+        $query->orWhere(function($q) use ($dayOfWeek, $startTime, $endTime, $professorId) {
+            if ($professorId) {
+                $q->where('day_of_week', $dayOfWeek)
+                ->where('professor_id', $professorId)
+                ->where('start_time', '<', $endTime)
+                ->where('end_time', '>', $startTime);
+            }
         });
 
         if ($excludeId) {

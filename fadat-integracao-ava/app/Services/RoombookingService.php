@@ -11,7 +11,6 @@ use App\Exceptions\ClassroomNotFoundException;
 use App\Models\Roombooking;
 use App\Repositories\Interfaces\IRoombookingRepository;
 use Illuminate\Support\Collection;
-use Carbon\Carbon;
 
 class RoombookingService
 {
@@ -39,10 +38,13 @@ class RoombookingService
 
     public function create(array $data): Roombooking
     {
-        $start = Carbon::parse($data['start_date_time']);
-        $end = Carbon::parse($data['end_date_time']);
-
-        $conflicts = $this->repository->getConflicts( $data['classroom_id'], $data['professor_id'], $start, $end);
+        $conflicts = $this->repository->getConflictsByDayAndTime(
+            $data['day_of_week'],
+            $data['start_time'],
+            $data['end_time'],
+            $data['classroom_id'],
+            $data['professor_id']
+        );
 
         foreach ($conflicts as $conflict) {
             if ($conflict->classroom_id === $data['classroom_id']) {
@@ -91,23 +93,24 @@ class RoombookingService
 
     public function search(?string $searchTerm = ''): Collection
     {
-        $search = $this->repository->search($searchTerm);
-
-        return $search;
+        return $this->repository->search($searchTerm);
     }
 
     public function update(array $data): Roombooking
     {
         $roombooking = $this->repository->getById($data['id']);
-
         if ($roombooking === null) {
             throw new RoombookingNotFoundException();
         }
 
-        $start = Carbon::parse($data['start_date_time']);
-        $end = Carbon::parse($data['end_date_time']);
-
-        $conflicts = $this->repository->getConflicts( $data['classroom_id'], $data['professor_id'], $start, $end, $data['id']);
+          $conflicts = $this->repository->getConflictsByDayAndTime(
+            $data['day_of_week'], 
+            $data['start_time'], 
+            $data['end_time'], 
+            $data['classroom_id'], 
+            $data['professor_id'], 
+            $data['id']
+        );
 
         foreach ($conflicts as $conflict) {
             if ($conflict->classroom_id === $data['classroom_id']) {
@@ -122,7 +125,7 @@ class RoombookingService
 
         return $roombooking;
     }
-    
+
     public function delete(string $id): ?bool
     {
         $roombooking = $this->repository->getById($id);

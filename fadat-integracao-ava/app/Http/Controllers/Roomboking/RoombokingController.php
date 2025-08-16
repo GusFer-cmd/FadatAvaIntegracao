@@ -65,8 +65,9 @@ class RoombokingController extends Controller
     public function store(RoombookingService $roombookingService, StoreRoombokingRequest $request)
     {
         $data = [
-            'start_date_time' => $request->start_date_time,
-            'end_date_time' => $request->end_date_time,
+            'day_of_week' => $request->day_of_week,
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time,
             'professor_id' => $request->professor_id,
             'subject_id' => $request->subject_id,
             'classroom_id' => $request->classroom_id,
@@ -100,8 +101,9 @@ class RoombokingController extends Controller
     {
         $data = [
             'id' => $id,
-            'start_date_time' => $request->start_date_time,
-            'end_date_time' => $request->end_date_time,
+            'day_of_week' => $request->day_of_week,
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time,
             'professor_id' => $request->professor_id,
             'subject_id' => $request->subject_id,
             'classroom_id' => $request->classroom_id,
