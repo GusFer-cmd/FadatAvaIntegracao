@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Exceptions\RoombookingNotFoundException;
 use App\Exceptions\RoombookingConflictException;
+use App\Exceptions\ProfessorConflictException;
 use App\Exceptions\ProfessorNotFoundException;
 use App\Exceptions\SubjectNotFoundException;
 use App\Exceptions\ClassroomNotFoundException;
@@ -43,8 +44,13 @@ class RoombookingService
 
         $conflicts = $this->repository->getConflicts( $data['classroom_id'], $data['professor_id'], $start, $end);
 
-        if ($conflicts->isNotEmpty()) {
-            throw new RoombookingConflictException();
+        foreach ($conflicts as $conflict) {
+            if ($conflict->classroom_id === $data['classroom_id']) {
+                throw new RoombookingConflictException();
+            }
+            if ($conflict->professor_id === $data['professor_id']) {
+                throw new ProfessorConflictException();
+            }
         }
 
         return $this->repository->create($data);
@@ -103,8 +109,13 @@ class RoombookingService
 
         $conflicts = $this->repository->getConflicts( $data['classroom_id'], $data['professor_id'], $start, $end, $data['id']);
 
-        if ($conflicts->isNotEmpty()) {
-            throw new RoombookingConflictException();
+        foreach ($conflicts as $conflict) {
+            if ($conflict->classroom_id === $data['classroom_id']) {
+                throw new RoombookingConflictException();
+            }
+            if ($conflict->professor_id === $data['professor_id']) {
+                throw new ProfessorConflictException();
+            }
         }
 
         $this->repository->update($roombooking, $data);

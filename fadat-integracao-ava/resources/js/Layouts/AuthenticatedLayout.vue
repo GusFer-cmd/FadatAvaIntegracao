@@ -47,7 +47,7 @@ const showingNavigationDropdown = ref(false);
 
                                 <NavLink
                                     :href="route('roomboking.index')"
-                                    :active="route().current('roomboking.index')"
+                                    :active="route().current('roomboking.index') || route().current('roomboking.search')"
                                 >
                                     Agendamento de Salas
                                 </NavLink>
@@ -189,7 +189,7 @@ const showingNavigationDropdown = ref(false);
 
                         <ResponsiveNavLink
                             :href="route('roomboking.index')"
-                            :active="route().current('roomboking.index')"
+                            :active="route().current('roomboking.index') || route().current('roomboking.search')"
                         >
                             Agendamento de Salas
                         </ResponsiveNavLink>

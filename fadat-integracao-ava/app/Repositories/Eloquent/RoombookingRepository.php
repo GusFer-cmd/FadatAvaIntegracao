@@ -30,17 +30,14 @@ class RoombookingRepository implements IRoombookingRepository
 
         $query->where(function ($q) use ($classroomId, $start, $end) {
             $q->where('classroom_id', $classroomId)
-            ->whereHas('classroom', function ($q2) {
-                $q2->whereIn('person_class', ['PR', 'ED']);
-            })
-            ->where('start_date_time', '<', $end)
-            ->where('end_date_time', '>', $start);
+                ->where('start_date_time', '<', $end)
+                ->where('end_date_time', '>', $start);
         });
 
         $query->orWhere(function ($q) use ($professorId, $start, $end) {
             $q->where('professor_id', $professorId)
-            ->where('start_date_time', '<', $end)
-            ->where('end_date_time', '>', $start);
+                ->where('start_date_time', '<', $end)
+                ->where('end_date_time', '>', $start);
         });
 
         if ($excludeId) {
@@ -49,7 +46,6 @@ class RoombookingRepository implements IRoombookingRepository
 
         return $query->get();
     }
-
 
     public function getByProfessorId(string $professorId): Collection
     {
@@ -86,7 +82,6 @@ class RoombookingRepository implements IRoombookingRepository
         })
         ->get();
     }
-
     
     public function getByDateRange(string $startDate, string $endDate): Collection
     {
