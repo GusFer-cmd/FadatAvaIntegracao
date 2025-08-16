@@ -24,12 +24,12 @@ class ProfessorNotFoundException extends Exception
         if ($request->is('api/*')) {
             return response()->json([
                 'message' => $this->getMessage()
-            ], 404);
+            ], 422);
         }
 
         return back()
-            ->withErrors(['email' => $this->getMessage()])
-            ->onlyInput('email');
+            ->withErrors(['professor_not_found' => $this->getMessage()])
+            ->onlyInput();
     }
 
 }

@@ -57,6 +57,9 @@ const submit = () => {
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <form @submit.prevent="submit" class="space-y-4">
+                    <div v-if="form.errors.roombooking" class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg">
+                        {{ form.errors.roombooking }}
+                    </div>
                     <div class="mx-4 space-y-4">
                         <div>
                             <InputLabel for="start_date_time" value="Data e Hora de Início" class="text-white" />

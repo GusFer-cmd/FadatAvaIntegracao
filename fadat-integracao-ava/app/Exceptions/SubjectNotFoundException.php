@@ -25,11 +25,11 @@ class SubjectNotFoundException extends Exception
         if ($request->is('api/*')) {
             return response()->json([
                 'message' => $this->getMessage()
-            ], 404);
+            ], 422);
         }
 
         return back()
             ->withErrors(['subject' => $this->getMessage()])
-            ->onlyInput('subject');
+            ->onlyInput();
     }
 }

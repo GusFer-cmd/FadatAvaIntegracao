@@ -12,24 +12,26 @@ class RoombookingConflictException extends Exception
 {
     public function __construct()
     {
-        parent::__construct("Já existe um agendamento em conflito para este período.");
+        parent::__construct("• Já existe um agendamento em conflito para este período.");
     }
 
     public function report():void
     {
         Log::error($this->getMessage());
     }
+
     public function render(Request $request): Response|RedirectResponse
     {
         if ($request->is('api/*')) {
             return response()->json([
                 'message' => $this->getMessage()
-            ], 404);
+            ], 422);
         }
 
         return back()
-            ->withErrors(['email' => $this->getMessage()])
-            ->onlyInput('email');
+            ->withErrors(['roombooking' => $this->getMessage()])
+            ->withInput();
     }
+
 
 }

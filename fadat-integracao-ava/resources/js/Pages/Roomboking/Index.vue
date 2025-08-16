@@ -98,7 +98,7 @@ const formatDateBR = (dateString) => {
                                         {{ roombooking.classroom
                                             ? (roombooking.classroom.academic_building
                                                 ? `${roombooking.classroom.class_number} - Bloco: (${roombooking.classroom.academic_building})`
-                                                : `${roombooking.classroom.class_number} - Sala Virtual - ${roombooking.classroom.url}`)
+                                                : `${roombooking.classroom.class_number} - Sala Virtual`)
                                             : 'Sala não encontrada' }}
                                     </td>
 

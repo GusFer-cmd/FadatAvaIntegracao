@@ -99,7 +99,7 @@ class RoombookingService
         }
 
         $start = Carbon::parse($data['start_date_time']);
-        $end   = Carbon::parse($data['end_date_time']);
+        $end = Carbon::parse($data['end_date_time']);
 
         $conflicts = $this->repository->getConflicts( $data['classroom_id'], $data['professor_id'], $start, $end, $data['id']);
 

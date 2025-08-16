@@ -60,8 +60,6 @@ class RoombokingController extends Controller
             'subjects' => $subjects,
             'classrooms' => $classrooms,
         ]);
-
-
     }
 
     public function store(RoombookingService $roombookingService, StoreRoombokingRequest $request)
@@ -102,7 +100,7 @@ class RoombokingController extends Controller
     {
         $data = [
             'id' => $id,
-            'start_date_time' => $request->end_date_time,
+            'start_date_time' => $request->start_date_time,
             'end_date_time' => $request->end_date_time,
             'professor_id' => $request->professor_id,
             'subject_id' => $request->subject_id,
