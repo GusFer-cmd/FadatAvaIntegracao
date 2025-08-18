@@ -17,11 +17,11 @@ class AdmSeeder extends Seeder
     {
         DB::table('users')->insert([
             [
-                'id' => Str::uuid(),
                 'name' => 'Administração FADAT',
                 'email' => 'cti@fadat.edu.br',
                 'password' => Hash::make('GGwn004a0£Ql'),
                 'access_level' => '99',
+                'email_verified_at' => now(),
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

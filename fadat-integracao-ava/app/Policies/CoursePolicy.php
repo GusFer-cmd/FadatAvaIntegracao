@@ -32,7 +32,7 @@ class CoursePolicy
      */
     public function create(User $user)
     {
-        return $user->access_level === AccessLevels::ADMIN || $user->access_level === AccessLevels::COORDINATOR
+        return $user->access_level >= AccessLevels::ADMIN || $user->access_level === AccessLevels::COORDINATOR
             ? Response::allow()
             : Response::deny('Você não tem permissão para acessar este conteúdo');
     }
@@ -40,9 +40,9 @@ class CoursePolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Course $course)
+    public function update(User $user)
     {
-        return $user->access_level === AccessLevels::ADMIN || $user->access_level === AccessLevels::COORDINATOR
+        return $user->access_level >= AccessLevels::ADMIN || $user->access_level === AccessLevels::COORDINATOR
             ? Response::allow()
             : Response::deny('Você não tem permissão para acessar este conteúdo');
     }
@@ -50,9 +50,9 @@ class CoursePolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Course $course)
+    public function delete(User $user)
     {
-        return $user->access_level === AccessLevels::ADMIN
+        return $user->access_level >= AccessLevels::ADMIN
             ? Response::allow()
             : Response::deny('Você não tem permissão para acessar este conteúdo');
     }
@@ -60,7 +60,7 @@ class CoursePolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Course $course)
+    public function restore(User $user)
     {
         return $user->access_level === AccessLevels::SUPER_ADMIN
             ? Response::allow()
@@ -70,7 +70,7 @@ class CoursePolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Course $course)
+    public function forceDelete(User $user)
     {
         return $user->access_level === AccessLevels::SUPER_ADMIN
             ? Response::allow()

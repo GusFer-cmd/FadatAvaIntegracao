@@ -32,7 +32,7 @@ class SubjectPolicy
      */
     public function create(User $user)
     {
-        return $user->access_level === AccessLevels::ADMIN || $user->access_level === AccessLevels::COORDINATOR
+        return $user->access_level >= AccessLevels::ADMIN || $user->access_level === AccessLevels::COORDINATOR
             ? Response::allow()
             : Response::deny('Você não tem permissão para acessar este conteúdo');
     }
@@ -40,9 +40,9 @@ class SubjectPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Subject $subject)
+    public function update(User $user)
     {
-        return $user->access_level === AccessLevels::ADMIN || $user->access_level === AccessLevels::COORDINATOR
+        return $user->access_level >= AccessLevels::ADMIN || $user->access_level === AccessLevels::COORDINATOR
             ? Response::allow()
             : Response::deny('Você não tem permissão para acessar este conteúdo');
     }
@@ -50,7 +50,7 @@ class SubjectPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Subject $subject)
+    public function delete(User $user)
     {
         return $user->access_level === AccessLevels::ADMIN
             ? Response::allow()
@@ -60,7 +60,7 @@ class SubjectPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Subject $subject)
+    public function restore(User $user)
     {
         return $user->access_level === AccessLevels::SUPER_ADMIN
             ? Response::allow()
@@ -70,7 +70,7 @@ class SubjectPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Subject $subject)
+    public function forceDelete(User $user)
     {
         return $user->access_level === AccessLevels::SUPER_ADMIN
             ? Response::allow()
