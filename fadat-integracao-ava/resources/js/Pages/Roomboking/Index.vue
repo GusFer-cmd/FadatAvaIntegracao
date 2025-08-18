@@ -1,6 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { router, Head, Link } from '@inertiajs/vue3';
+import { router, Head, Link, usePage } from '@inertiajs/vue3';
 import { Pencil, Trash2 } from 'lucide-vue-next';
 import { ref, watch } from 'vue';
 
@@ -14,6 +14,8 @@ const props = defineProps({
         default: () => [],
     },
 });
+
+const user = usePage().props.auth.user;
 
 function getCourseName(courseId) {
     const course = props.courses.find(course => course.id === courseId);
@@ -40,6 +42,19 @@ const removeRoomboking = (roombooking) => {
 const formatHour = (time) => {
     return time ? time.split(':').slice(0, 2).join(':') : '';
 };
+
+// const getPeriodoLetivo = (dateString) => {
+//     if (!dateString) return 'Data inválida';
+
+//     const date = new Date(dateString);
+//     const year = date.getFullYear();
+//     const month = date.getMonth() + 1;
+
+//     const periodo = month >= 8 ? 2 : 1;
+
+//     return `${year}.${periodo}`;
+// };
+
 </script>
 
 <template>
@@ -78,7 +93,7 @@ const formatHour = (time) => {
                                     <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Curso</th>
                                     <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Disciplina</th>
                                     <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Professor</th>
-                                    <th class="px-6 py-3 text-right text-sm font-semibold text-gray-700 dark:text-gray-300">Ações</th>
+                                    <th v-if="user.access_level >=80" class="px-6 py-3 text-right text-sm font-semibold text-gray-700 dark:text-gray-300">Ações</th>
                                 </tr>
                             </thead>
                             <tbody class="block sm:table-row-group">
@@ -116,7 +131,7 @@ const formatHour = (time) => {
                                         {{ roombooking.professor?.name ?? 'Professor não encontrado' }}
                                     </td>
 
-                                    <td class="px-4 sm:px-6 py-3 text-right space-x-3 flex justify-end sm:table-cell">
+                                    <td v-if="user.access_level >=80" class="px-4 sm:px-6 py-3 text-right space-x-3 flex justify-end sm:table-cell">
                                         <button
                                             @click="editRoomboking(roombooking)"
                                             class="text-blue-600 hover:text-blue-800 transition"
