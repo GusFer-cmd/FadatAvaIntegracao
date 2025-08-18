@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\ProfessorAlreadyCreated;
 use App\Exceptions\ProfessorNotFoundException;
 use App\Models\Professors;
 use App\Repositories\Interfaces\IProfessorRepository;
@@ -34,7 +35,7 @@ class ProfessorService
     {
         $exists = $this->repository->exists($data['name']);
         if ($exists)
-            throw new ProfessorNotFoundException();
+            throw new ProfessorAlreadyCreated();
 
         $professor = $this->repository->create($data);
 

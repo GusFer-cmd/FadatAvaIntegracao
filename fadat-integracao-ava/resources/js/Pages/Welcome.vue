@@ -1,35 +1,46 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { router, Head, Link, usePage } from '@inertiajs/vue3';
+import { ref, watch } from 'vue';
 
-defineProps({
+const props = defineProps({
     canLogin: {
         type: Boolean,
     },
     canRegister: {
         type: Boolean,
     },
-    laravelVersion: {
-        type: String,
-        required: true,
+    roombookings: {
+        type: Array,
+        default: () => [],
     },
-    phpVersion: {
-        type: String,
-        required: true,
+    courses: {
+        type: Array,
+        default: () => [],
     },
 });
 
-function handleImageError() {
-    document.getElementById('screenshot-container')?.classList.add('!hidden');
-    document.getElementById('docs-card')?.classList.add('!row-span-1');
-    document.getElementById('docs-card-content')?.classList.add('!flex-row');
-    document.getElementById('background')?.classList.add('!hidden');
+const user = usePage().props.auth.user;
+
+function getCourseName(courseId) {
+    const course = props.courses.find(course => course.id === courseId);
+    return course ? course.name : 'Curso não encontrado';
 }
+
+const searchTerm = ref('');
+
+watch(searchTerm, (newTerm) => {
+    router.get(route('roomboking.search'), { search: newTerm }, { preserveState: true, replace: true });
+});
+
+const formatHour = (time) => {
+    return time ? time.split(':').slice(0, 2).join(':') : '';
+};
 </script>
 
 <template>
     <Head title="Welcome" />
     <div class="bg-[#113F67] text-black/50 dark:bg-black dark:text-white/50 min-h-screen">
-        <nav class="fixed top-0 left-0 w-full z-50 bg-gray-50 dark:bg-black shadow h-14 flex items-center">
+        <nav v-if="user" class="fixed top-0 left-0 w-full z-50 bg-gray-50 dark:bg-black shadow h-14 flex items-center">
             <div class="max-w-7xl mx-auto w-full flex items-center justify-between px-6">
                 <div class="flex items-center px-4">
                     <img
@@ -60,18 +71,89 @@ function handleImageError() {
         <div class="h-14"></div>
 
         <main class="flex justify-center items-center min-h-[calc(100vh-56px)] px-4">
-            <div class="block w-full max-w-lg md:max-w-2xl p-6 md:p-10 bg-white border border-gray-200 rounded-2xl shadow-2xl">
+            <!-- <div class="block w-full max-w-lg md:max-w-2xl p-6 md:p-10 bg-white border border-gray-200 rounded-2xl shadow-2xl">
                 <h5 class="mb-2 text-xl md:text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
                     Bem-vindo ao FADAT ALOCAÇÃO DE SALAS
                 </h5>
                 <p class="font-normal text-gray-700 dark:text-gray-400">
                     Esta é uma aplicação para agendamento de salas.
                 </p>
-                <p class="mt-4 text-xs md:text-sm text-gray-500 dark:text-gray-400">
-                    Laravel Version: {{ laravelVersion }}<br />
-                    PHP Version: {{ phpVersion }}
-                </p>
+            </div> -->
+            <div class="py-12">
+            <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 p-6 text-gray-900 dark:text-gray-100">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
+                        <h1 class="text-2xl sm:text-3xl font-semibold">Agendamentos de Salas</h1>
+                        
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-4 w-full sm:w-auto">
+                            <input
+                                type="text"
+                                v-model="searchTerm"
+                                placeholder="Nome do Professor, Curso ou Disciplina..."
+                                class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-100 w-full sm:w-80"
+                            />
+
+                            <Link
+                                :href="route('roomboking.create')"
+                                class="px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-auto text-center"
+                            >
+                                Criar Agendamento
+                            </Link>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden">
+                            <thead class="bg-gray-100 dark:bg-gray-700 hidden sm:table-header-group">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Sala</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Horário</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Curso</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Disciplina</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Professor</th>
+                                </tr>
+                            </thead>
+                            <tbody class="block sm:table-row-group">
+                                <tr
+                                    v-for="roombooking in roombookings"
+                                    :key="roombooking.id"
+                                    class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition block sm:table-row mb-4 sm:mb-0"
+                                >
+                                    <td class="px-4 sm:px-6 py-3 text-gray-900 dark:text-gray-100 font-medium block sm:table-cell">
+                                        <span class="font-semibold sm:hidden">Sala: </span>
+                                        {{ roombooking.classroom
+                                            ? (roombooking.classroom.academic_building
+                                                ? `Bloco: ${roombooking.classroom.academic_building} - (Sala ${roombooking.classroom.class_number})`
+                                                : `Virtual - (Sala ${roombooking.classroom.class_number})`)
+                                            : 'Sala não encontrada' }}
+                                    </td>
+
+                                    <td class="px-4 sm:px-6 py-3 text-gray-700 dark:text-gray-300 block sm:table-cell">
+                                        <span class="font-semibold sm:hidden">Horário: </span>
+                                        {{ formatHour(roombooking.start_time) }} - {{ formatHour(roombooking.end_time) }}
+                                    </td>
+
+                                    <td class="px-4 sm:px-6 py-3 text-gray-700 dark:text-gray-300 block sm:table-cell">
+                                        <span class="font-semibold sm:hidden">Curso: </span>
+                                        {{ getCourseName(roombooking.subject.course_id) ?? 'Curso não encontrado' }}
+                                    </td>
+
+                                    <td class="px-4 sm:px-6 py-3 text-gray-700 dark:text-gray-300 block sm:table-cell">
+                                        <span class="font-semibold sm:hidden">Disciplina: </span>
+                                        {{ roombooking.subject?.name ?? 'Disciplina não encontrada' }}
+                                    </td>
+
+                                    <td class="px-4 sm:px-6 py-3 text-gray-700 dark:text-gray-300 block sm:table-cell">
+                                        <span class="font-semibold sm:hidden">Professor: </span>
+                                        {{ roombooking.professor?.name ?? 'Professor não encontrado' }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
+        </div>
         </main>
     </div>
 </template>

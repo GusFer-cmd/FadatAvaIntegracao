@@ -6,6 +6,7 @@ use App\Http\Controllers\Professor\ProfessorController;
 use App\Http\Controllers\Subject\SubjectController;
 use App\Http\Controllers\Classroom\ClassroomController;
 use App\Http\Controllers\Roomboking\RoombokingController;
+use App\Services\RoombookingService;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Models\Classroom;
@@ -13,14 +14,18 @@ use App\Models\Course;
 use App\Models\Professors;
 use App\Models\Subject;
 use App\Models\Roombooking;
+use App\Services\CourseService;
 use Inertia\Inertia;
 
-Route::get('/', function () {
+Route::get('/', function (RoombookingService $roombookingService, CourseService $courseService) {
+    $roombookings = $roombookingService->getAll();
+    $courses = $courseService->getAll();
+
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
+        'roombookings' => $roombookings,
+        'courses' => $courses
     ]);
 });
 
