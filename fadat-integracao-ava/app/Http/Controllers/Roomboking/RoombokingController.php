@@ -19,9 +19,6 @@ class RoombokingController extends Controller
 {
     public function index(RoombookingService $roombookingService, CourseService $courseService)
     {
-        if (!Auth::check())
-            return redirect()->route('home')->with("Não foi possível contiuar. Tente novamente");
-
         $roombookings = $roombookingService->getAll();
         $courses = $courseService->getAll();
 
@@ -31,16 +28,36 @@ class RoombokingController extends Controller
         ]);
     }
 
+    public function indexPublic(RoombookingService $roombookingService, CourseService $courseService)
+    {
+        $roombookings = $roombookingService->getAll();
+        $courses = $courseService->getAll();
+
+        return Inertia::render('Roomboking/IndexPublic', [
+            'roombookings' => $roombookings,
+            'courses' => $courses,
+        ]);
+    }
+
     public function search(Request $request, RoombookingService $roombookingService, CourseService $courseService)
     {
-        if (!Auth::check())
-            return redirect()->route('home')->with("Não foi possível contiuar. Tente novamente");
-
         $searchTerm = $request->input('search', '');
         $courses = $courseService->getAll();
         $roombookings = $roombookingService->search($searchTerm);
 
         return Inertia::render('Roomboking/Index', [
+            'roombookings' => $roombookings,
+            'courses' => $courses,
+        ]);
+    }
+
+    public function searchPublic(Request $request, RoombookingService $roombookingService, CourseService $courseService)
+    {
+        $searchTerm = $request->input('search', '');
+        $courses = $courseService->getAll();
+        $roombookings = $roombookingService->search($searchTerm);
+
+        return Inertia::render('Roomboking/IndexPublic', [
             'roombookings' => $roombookings,
             'courses' => $courses,
         ]);
@@ -119,7 +136,7 @@ class RoombokingController extends Controller
 
     public function delete(string $id, RoombookingService $roombookingService)
     {
-        $roombookingService->delete($id);
+        $roombooking = $roombookingService->delete($id);
 
         Log::info('Agendamento de sala excluído: ' . $id);
         Log::info('Excluído por: ' . Auth::id() . ' - ' . Auth::user()?->name);

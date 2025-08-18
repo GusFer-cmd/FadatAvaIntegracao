@@ -10,7 +10,6 @@ defineProps({
     },
 });
 
-
 const editCourse = (course) => { 
   const encodedId = btoa(course.id);
   router.get(route('course.edit', encodedId));

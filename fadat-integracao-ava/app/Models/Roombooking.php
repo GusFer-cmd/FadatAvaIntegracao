@@ -16,7 +16,11 @@ class Roombooking extends Model
 
     protected $table = 'roombookings';
 
+    public $incrementing = false;
+    protected $keyType = 'string';
+
     protected $fillable = [
+        'id',
         'day_of_week',
         'start_time',
         'end_time',

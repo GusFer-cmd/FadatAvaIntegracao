@@ -29,6 +29,9 @@ Route::get('/', function (RoombookingService $roombookingService, CourseService 
     ]);
 });
 
+Route::get('/roomboking/public', [RoombokingController::class, 'indexPublic'])->name('roomboking.index.public');
+Route::get('/roomboking/public/search', [RoombokingController::class, 'searchPublic'])->name('roomboking.search.public');
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -75,9 +78,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/classroom/{id}', [ClassroomController::class, 'delete'])->name('classroom.delete')->can('delete', Classroom::class);
 
     // ROTA AGENDAMENTO DE SALAS
+    Route::get('/roomboking/create', [RoombokingController::class, 'create'])->name('roomboking.create')->can('create', Roombooking::class);
     Route::get('/roomboking', [RoombokingController::class, 'index'])->name('roomboking.index')->can('viewAny', Roombooking::class);
     Route::get('/roomboking/search', [RoombokingController::class, 'search'])->name('roomboking.search')->can('viewAny', Roombooking::class);
-    Route::get('/roomboking/create', [RoombokingController::class, 'create'])->name('roomboking.create')->can('create', Roombooking::class);
     Route::post('/roomboking', [RoombokingController::class, 'store'])->name('roomboking.store')->can('create', Roombooking::class);
     Route::get('/roomboking/edit/{encodedId}', [RoombokingController::class, 'edit'])->name('roomboking.edit')->can('update', Roombooking::class);
     Route::put('/roomboking/{id}', [RoombokingController::class, 'update'])->name('roomboking.update')->can('update', Roombooking::class);

@@ -38,54 +38,16 @@ const formatHour = (time) => {
 <template>
     <Head title="Welcome" />
     <div class="bg-[#113F67] text-black/50 dark:bg-black dark:text-white/50 min-h-screen">
-        <!-- <nav v-if="user" class="fixed top-0 left-0 w-full z-50 bg-gray-50 dark:bg-black shadow h-14 flex items-center">
-            <div class="max-w-7xl mx-auto w-full flex items-center justify-between px-6">
-                <div class="flex items-center px-4">
-                    <img
-                        src="/images/logo.png"
-                        alt="Logo FADAT"
-                        class="h-8 w-auto sm:h-10 md:h-12"
-                        style="max-width:120px"
-                    />
-                </div>
-                <div class="flex gap-2">
-                    <Link
-                        :href="route('login')"
-                        class="rounded-md px-3 py-1 text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 transition"
-                    >
-                        Logar
-                    </Link>
-                    <Link
-                        v-if="canRegister"
-                        :href="route('register')"
-                        class="rounded-md px-3 py-1 text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 transition"
-                    >
-                        Registrar
-                    </Link>
-                </div>
-            </div>
-        </nav> -->
-
         <div class="h-14"></div>
 
         <main class="flex justify-center items-center min-h-[calc(100vh-56px)] px-4">
-            <!-- <div class="block w-full max-w-lg md:max-w-2xl p-6 md:p-10 bg-white border border-gray-200 rounded-2xl shadow-2xl">
-                <h5 class="mb-2 text-xl md:text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
-                    Bem-vindo ao FADAT ALOCAÇÃO DE SALAS
-                </h5>
-                <p class="font-normal text-gray-700 dark:text-gray-400">
-                    Esta é uma aplicação para agendamento de salas.
-                </p>
-            </div> -->
             <div class="flex flex-col">
                 <div class="flex justify-center ">
                     <img src="/images/logoFADAT.png" alt="Logo FADAT" style="max-width:420px;" />
                 </div>
-                
                 <div class="py-12">
                     <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                         <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 p-6 text-gray-900 dark:text-gray-100">
-                            
                             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
                                 <h1 class="text-2xl sm:text-3xl font-semibold">Locação de Salas</h1>
                                 

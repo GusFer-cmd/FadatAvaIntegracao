@@ -30,11 +30,12 @@ watch(searchTerm, (newTerm) => {
 
 const editRoomboking = (roombooking) => { 
     const encodedId = btoa(roombooking.id);
-    router.get(route('roomboking.edit', encodedId));
+    router.get(route('roomboking.edit', { encodedId }));
 };
 
 const removeRoomboking = (roombooking) => {
-    if (confirm('Deseja realmente deletar o agendamento da sala?')) {
+    console.log(roombooking)
+    if (confirm(`Deseja realmente deletar o agendamento da sala "${roombooking.id}"?`)) {
         router.delete(route('roomboking.delete', roombooking.id));
     }
 };
@@ -42,18 +43,6 @@ const removeRoomboking = (roombooking) => {
 const formatHour = (time) => {
     return time ? time.split(':').slice(0, 2).join(':') : '';
 };
-
-// const getPeriodoLetivo = (dateString) => {
-//     if (!dateString) return 'Data inválida';
-
-//     const date = new Date(dateString);
-//     const year = date.getFullYear();
-//     const month = date.getMonth() + 1;
-
-//     const periodo = month >= 8 ? 2 : 1;
-
-//     return `${year}.${periodo}`;
-// };
 
 </script>
 
