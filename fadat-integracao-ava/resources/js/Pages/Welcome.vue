@@ -1,14 +1,11 @@
 <script setup>
 import { router, Head, Link, usePage } from '@inertiajs/vue3';
-import { ref, watch } from 'vue';
+import { ref, computed, watch } from 'vue';
+import { ArrowLeft, ArrowRight} from 'lucide-vue-next';
 
 const props = defineProps({
-    canLogin: {
-        type: Boolean,
-    },
-    canRegister: {
-        type: Boolean,
-    },
+    canLogin: Boolean,
+    canRegister: Boolean,
     roombookings: {
         type: Array,
         default: () => [],
@@ -25,58 +22,36 @@ function getCourseName(courseId) {
 }
 
 const searchTerm = ref('');
-
 watch(searchTerm, (newTerm) => {
     router.get(route('roomboking.search.public'), { search: newTerm }, { preserveState: true, replace: true });
 });
 
-const formatHour = (time) => {
-    return time ? time.split(':').slice(0, 2).join(':') : '';
-};
+const formatHour = (time) => time ? time.split(':').slice(0, 2).join(':') : '';
+
+// Configuração da paginação
+const currentPage = ref(1);
+const perPage = ref(15);
+
+// Total de páginas
+const totalPages = computed(() => Math.ceil(props.roombookings.length / perPage.value));
+
+// Registros filtrados
+const paginatedBookings = computed(() => {
+    const start = (currentPage.value - 1) * perPage.value;
+    return props.roombookings.slice(start, start + perPage.value);
+});
+
+function changePage(page) {
+    if (page >= 1 && page <= totalPages.value) {
+        currentPage.value = page;
+    }
+}
 </script>
 
 <template>
     <Head title="Welcome" />
     <div class="bg-[#113F67] text-black/50 dark:bg-black dark:text-white/50 min-h-screen">
-        <!-- <nav v-if="user" class="fixed top-0 left-0 w-full z-50 bg-gray-50 dark:bg-black shadow h-14 flex items-center">
-            <div class="max-w-7xl mx-auto w-full flex items-center justify-between px-6">
-                <div class="flex items-center px-4">
-                    <img
-                        src="/images/logo.png"
-                        alt="Logo FADAT"
-                        class="h-8 w-auto sm:h-10 md:h-12"
-                        style="max-width:120px"
-                    />
-                </div>
-                <div class="flex gap-2">
-                    <Link
-                        :href="route('login')"
-                        class="rounded-md px-3 py-1 text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 transition"
-                    >
-                        Logar
-                    </Link>
-                    <Link
-                        v-if="canRegister"
-                        :href="route('register')"
-                        class="rounded-md px-3 py-1 text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 transition"
-                    >
-                        Registrar
-                    </Link>
-                </div>
-            </div>
-        </nav> -->
-
-        <div class="h-14"></div>
-
         <main class="flex justify-center items-center min-h-[calc(100vh-56px)] px-4">
-            <!-- <div class="block w-full max-w-lg md:max-w-2xl p-6 md:p-10 bg-white border border-gray-200 rounded-2xl shadow-2xl">
-                <h5 class="mb-2 text-xl md:text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
-                    Bem-vindo ao FADAT ALOCAÇÃO DE SALAS
-                </h5>
-                <p class="font-normal text-gray-700 dark:text-gray-400">
-                    Esta é uma aplicação para agendamento de salas.
-                </p>
-            </div> -->
             <div class="flex flex-col">
                 <div class="flex justify-center ">
                     <img src="/images/logoFADAT.png" alt="Logo FADAT" class="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl w-full h-auto" />
@@ -88,7 +63,6 @@ const formatHour = (time) => {
                             
                             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
                                 <h1 class="text-2xl sm:text-3xl font-semibold">Locação de Salas</h1>
-                                
                                 <div class="flex flex-col sm:flex-row sm:items-center gap-4 w-full sm:w-auto">
                                     <input
                                         type="text"
@@ -103,20 +77,20 @@ const formatHour = (time) => {
                                 <table class="min-w-full border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden">
                                     <thead class="bg-gray-100 dark:bg-gray-700 hidden sm:table-header-group">
                                         <tr>
-                                            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Sala</th>
-                                            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Horário</th>
-                                            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Curso</th>
-                                            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Disciplina</th>
-                                            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Professor</th>
+                                            <th class="px-6 py-3 text-left text-sm font-semibold">Sala</th>
+                                            <th class="px-6 py-3 text-left text-sm font-semibold">Horário</th>
+                                            <th class="px-6 py-3 text-left text-sm font-semibold">Curso</th>
+                                            <th class="px-6 py-3 text-left text-sm font-semibold">Disciplina</th>
+                                            <th class="px-6 py-3 text-left text-sm font-semibold">Professor</th>
                                         </tr>
                                     </thead>
                                     <tbody class="block sm:table-row-group">
                                         <tr
-                                            v-for="roombooking in roombookings"
+                                            v-for="roombooking in paginatedBookings"
                                             :key="roombooking.id"
                                             class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition block sm:table-row mb-4 sm:mb-0"
                                         >
-                                            <td class="px-4 sm:px-6 py-3 text-gray-900 dark:text-gray-100 font-medium block sm:table-cell">
+                                            <td class="px-4 sm:px-6 py-3 font-medium block sm:table-cell">
                                                 <span class="font-semibold sm:hidden">Sala: </span>
                                                 {{ roombooking.classroom
                                                     ? (roombooking.classroom.academic_building
@@ -124,30 +98,53 @@ const formatHour = (time) => {
                                                         : `Virtual - (Sala ${roombooking.classroom.class_number})`)
                                                     : 'Sala não encontrada' }}
                                             </td>
-
-                                            <td class="px-4 sm:px-6 py-3 text-gray-700 dark:text-gray-300 block sm:table-cell">
-                                                <span class="font-semibold sm:hidden">Horário: </span>
+                                            <td class="px-4 sm:px-6 py-3 block sm:table-cell">
                                                 {{ formatHour(roombooking.start_time) }} - {{ formatHour(roombooking.end_time) }}
                                             </td>
-
-                                            <td class="px-4 sm:px-6 py-3 text-gray-700 dark:text-gray-300 block sm:table-cell">
-                                                <span class="font-semibold sm:hidden">Curso: </span>
+                                            <td class="px-4 sm:px-6 py-3 block sm:table-cell">
                                                 {{ getCourseName(roombooking.subject.course_id) ?? 'Curso não encontrado' }}
                                             </td>
-
-                                            <td class="px-4 sm:px-6 py-3 text-gray-700 dark:text-gray-300 block sm:table-cell">
-                                                <span class="font-semibold sm:hidden">Disciplina: </span>
+                                            <td class="px-4 sm:px-6 py-3 block sm:table-cell">
                                                 {{ roombooking.subject?.name ?? 'Disciplina não encontrada' }}
                                             </td>
-
-                                            <td class="px-4 sm:px-6 py-3 text-gray-700 dark:text-gray-300 block sm:table-cell">
-                                                <span class="font-semibold sm:hidden">Professor: </span>
+                                            <td class="px-4 sm:px-6 py-3 block sm:table-cell">
                                                 {{ roombooking.professor?.name ?? 'Professor não encontrado' }}
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
+
+                            <div class="flex justify-center items-center gap-2 mt-6">
+                                <button 
+                                    @click="changePage(currentPage - 1)" 
+                                    :disabled="currentPage === 1"
+                                    class="px-3 py-1 rounded-lg border disabled:opacity-50"
+                                >
+                                    <ArrowLeft class="w-4 h-4" />
+                                </button>
+                                
+                                <button
+                                    v-for="page in totalPages"
+                                    :key="page"
+                                    @click="changePage(page)"
+                                    :class="[
+                                        'px-3 py-1 rounded-lg border',
+                                        currentPage === page ? 'bg-blue-600 text-white' : 'bg-white dark:bg-gray-700'
+                                    ]"
+                                >
+                                    {{ page }}
+                                </button>
+
+                                <button 
+                                    @click="changePage(currentPage + 1)" 
+                                    :disabled="currentPage === totalPages"
+                                    class="px-3 py-1 rounded-lg border disabled:opacity-50"
+                                >
+                                    <ArrowRight class="w-4 h-4" />
+                                </button>
+                            </div>
+
                         </div>
                     </div>
                 </div>

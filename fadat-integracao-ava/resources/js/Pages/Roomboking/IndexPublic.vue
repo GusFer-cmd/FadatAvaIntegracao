@@ -1,6 +1,7 @@
 <script setup>
 import { router, Head, Link, usePage } from '@inertiajs/vue3';
-import { ref, watch } from 'vue';
+import { ref, computed, watch } from 'vue';
+import { ArrowLeft, ArrowRight} from 'lucide-vue-next';
 
 const props = defineProps({
     canLogin: {
@@ -33,6 +34,23 @@ watch(searchTerm, (newTerm) => {
 const formatHour = (time) => {
     return time ? time.split(':').slice(0, 2).join(':') : '';
 };
+
+// Configuração da paginação
+const currentPage = ref(1);
+const perPage = ref(15);
+
+const totalPages = computed(() => Math.ceil(props.roombookings.length / perPage.value));
+
+const paginatedBookings = computed(() => {
+    const start = (currentPage.value - 1) * perPage.value;
+    return props.roombookings.slice(start, start + perPage.value);
+});
+
+function changePage(page) {
+    if (page >= 1 && page <= totalPages.value) {
+        currentPage.value = page;
+    }
+}
 </script>
 
 <template>
@@ -110,6 +128,37 @@ const formatHour = (time) => {
                                     </tbody>
                                 </table>
                             </div>
+
+                            <div class="flex justify-center items-center gap-2 mt-6">
+                                <button 
+                                    @click="changePage(currentPage - 1)" 
+                                    :disabled="currentPage === 1"
+                                    class="px-3 py-1 rounded-lg border disabled:opacity-50"
+                                >
+                                    <ArrowLeft class="w-4 h-4" />
+                                </button>
+                                
+                                <button
+                                    v-for="page in totalPages"
+                                    :key="page"
+                                    @click="changePage(page)"
+                                    :class="[
+                                        'px-3 py-1 rounded-lg border',
+                                        currentPage === page ? 'bg-blue-600 text-white' : 'bg-white dark:bg-gray-700'
+                                    ]"
+                                >
+                                    {{ page }}
+                                </button>
+
+                                <button 
+                                    @click="changePage(currentPage + 1)" 
+                                    :disabled="currentPage === totalPages"
+                                    class="px-3 py-1 rounded-lg border disabled:opacity-50"
+                                >
+                                    <ArrowRight class="w-4 h-4" />
+                                </button>
+                            </div>
+
                         </div>
                     </div>
                 </div>
