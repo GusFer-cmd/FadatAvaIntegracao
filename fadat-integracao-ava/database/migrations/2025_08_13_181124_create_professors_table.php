@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('professors', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name', 100);
+            $table->string('email')->unique();
 
             $table->timestamps();
         });

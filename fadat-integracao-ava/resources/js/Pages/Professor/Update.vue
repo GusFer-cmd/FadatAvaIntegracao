@@ -14,7 +14,8 @@ const props = defineProps({
 });
 
 const form = useForm({
-    name: props.professor.name || 'Curso não encontrado',
+    name: props.professor.name || 'Nome não encontrado',
+    email: props.professor.email || 'Email não encontrado',
 });
 
 const submit = () => {
@@ -55,6 +56,21 @@ const submit = () => {
                             />
 
                             <InputError class="mt-2" :message="form.errors.name" />
+                        </div>
+
+                        <div>
+                            <InputLabel for="email" value="E-mail" />
+
+                            <TextInput
+                                id="email"
+                                type="email"
+                                class="mt-1 block w-full"
+                                v-model="form.email"
+                                autofocus
+                                autocomplete="email"
+                            />
+
+                            <InputError class="mt-2" :message="form.errors.email" />
                         </div>
 
                         <div class="flex justify-end">

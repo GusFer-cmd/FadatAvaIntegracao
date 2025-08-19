@@ -40,6 +40,7 @@ class ProfessorController extends Controller
     {
         $data = [
             'name' => $request->name,
+            'email' => $request->email
         ];
 
         $professor = $professorService->create($data);
@@ -64,7 +65,8 @@ class ProfessorController extends Controller
     {
         $data = [
             'id' => $id,
-            'name' => $request->name
+            'name' => $request->name,
+            'email' => $request->email
         ];
 
         $professor = $professorService->update($data);

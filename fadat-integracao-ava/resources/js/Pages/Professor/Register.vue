@@ -8,6 +8,7 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 
 const form = useForm({
   name: '',
+  email: '',
 });
 
 const submit = () => {
@@ -48,6 +49,21 @@ const submit = () => {
                             />
 
                             <InputError class="mt-2" :message="form.errors.name" />
+                        </div>
+
+                        <div>
+                            <InputLabel for="email" value="E-mail" />
+
+                            <TextInput
+                                id="email"
+                                type="email"
+                                class="mt-1 block w-full"
+                                v-model="form.email"
+                                autofocus
+                                autocomplete="email"
+                            />
+
+                            <InputError class="mt-2" :message="form.errors.email" />
                         </div>
 
                         <div class="flex justify-end">

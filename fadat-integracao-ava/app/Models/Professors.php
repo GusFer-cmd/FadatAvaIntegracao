@@ -18,6 +18,7 @@ class Professors extends Model
     protected $fillable = [
         'id',
         'name',
+        'email',
     ];
 
     // Gerar UUID ao criar
