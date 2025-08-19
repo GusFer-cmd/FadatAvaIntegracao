@@ -27,8 +27,20 @@ function getCourseName(courseId) {
 
 const searchTerm = ref('');
 
-watch(searchTerm, (newTerm) => {
-    router.get(route('roomboking.search.public'), { search: newTerm }, { preserveState: true, replace: true });
+const filteredBookings = computed(() => {
+    if (!searchTerm.value || searchTerm.value.length < 3) {
+        return props.roombookings;
+    }
+
+    const term = searchTerm.value.toLowerCase();
+
+    return props.roombookings.filter(rb => {
+        const professorName = rb.professor?.name?.toLowerCase() || '';
+        const subjectName = rb.subject?.name?.toLowerCase() || '';
+        const courseName = getCourseName(rb.subject?.course_id)?.toLowerCase() || '';
+
+        return professorName.includes(term) || subjectName.includes(term) || courseName.includes(term);
+    });
 });
 
 const formatHour = (time) => {
@@ -39,11 +51,15 @@ const formatHour = (time) => {
 const currentPage = ref(1);
 const perPage = ref(15);
 
-const totalPages = computed(() => Math.ceil(props.roombookings.length / perPage.value));
+const totalPages = computed(() => Math.ceil(filteredBookings.value.length / perPage.value));
 
 const paginatedBookings = computed(() => {
     const start = (currentPage.value - 1) * perPage.value;
-    return props.roombookings.slice(start, start + perPage.value);
+    return filteredBookings.value.slice(start, start + perPage.value);
+});
+
+watch(searchTerm, () => {
+    currentPage.value = 1;
 });
 
 function changePage(page) {
@@ -92,7 +108,7 @@ function changePage(page) {
                                     </thead>
                                     <tbody class="block sm:table-row-group">
                                         <tr
-                                            v-for="roombooking in roombookings"
+                                            v-for="roombooking in paginatedBookings"
                                             :key="roombooking.id"
                                             class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition block sm:table-row mb-4 sm:mb-0"
                                         >

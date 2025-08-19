@@ -1,7 +1,7 @@
 <script setup>
-import { router, Head, Link, usePage } from '@inertiajs/vue3';
-import { ref, computed, watch } from 'vue';
-import { ArrowLeft, ArrowRight} from 'lucide-vue-next';
+import { Head } from '@inertiajs/vue3';
+import { ref, watch, computed } from 'vue';
+import { ArrowLeft, ArrowRight } from 'lucide-vue-next';
 
 const props = defineProps({
     canLogin: Boolean,
@@ -22,23 +22,39 @@ function getCourseName(courseId) {
 }
 
 const searchTerm = ref('');
-watch(searchTerm, (newTerm) => {
-    router.get(route('roomboking.search.public'), { search: newTerm }, { preserveState: true, replace: true });
+
+const filteredBookings = computed(() => {
+    if (!searchTerm.value || searchTerm.value.length < 3) {
+        return props.roombookings;
+    }
+
+    const term = searchTerm.value.toLowerCase();
+
+    return props.roombookings.filter(rb => {
+        const professorName = rb.professor?.name?.toLowerCase() || '';
+        const subjectName = rb.subject?.name?.toLowerCase() || '';
+        const courseName = getCourseName(rb.subject?.course_id)?.toLowerCase() || '';
+
+        return professorName.includes(term) || subjectName.includes(term) || courseName.includes(term);
+    });
 });
 
 const formatHour = (time) => time ? time.split(':').slice(0, 2).join(':') : '';
 
-// Configuração da paginação
+// Paginação
 const currentPage = ref(1);
 const perPage = ref(15);
 
-// Total de páginas
-const totalPages = computed(() => Math.ceil(props.roombookings.length / perPage.value));
+const totalPages = computed(() => Math.ceil(filteredBookings.value.length / perPage.value));
 
-// Registros filtrados
 const paginatedBookings = computed(() => {
     const start = (currentPage.value - 1) * perPage.value;
-    return props.roombookings.slice(start, start + perPage.value);
+    return filteredBookings.value.slice(start, start + perPage.value);
+});
+
+// Resetar página ao digitar pesquisa
+watch(searchTerm, () => {
+    currentPage.value = 1;
 });
 
 function changePage(page) {
@@ -49,7 +65,7 @@ function changePage(page) {
 </script>
 
 <template>
-    <Head title="Welcome" />
+    <Head title="Home" />
     <div class="bg-[#113F67] text-black/50 dark:bg-black dark:text-white/50 min-h-screen">
         <main class="flex justify-center items-center min-h-[calc(100vh-56px)] px-4">
             <div class="flex flex-col">
@@ -128,10 +144,7 @@ function changePage(page) {
                                     v-for="page in totalPages"
                                     :key="page"
                                     @click="changePage(page)"
-                                    :class="[
-                                        'px-3 py-1 rounded-lg border',
-                                        currentPage === page ? 'bg-blue-600 text-white' : 'bg-white dark:bg-gray-700'
-                                    ]"
+                                    :class="[ 'px-3 py-1 rounded-lg border', currentPage === page ? 'bg-blue-600 text-white' : 'bg-white dark:bg-gray-700']"
                                 >
                                     {{ page }}
                                 </button>

@@ -76,18 +76,23 @@ class RoombookingRepository implements IRoombookingRepository
 
     public function search(?string $searchTerm = ''): Collection
     {
-    return Roombooking::with(['classroom', 'professor', 'subject.course'])
-        ->whereHas('professor', function ($query) use ($searchTerm) {
-            $query->where('name', 'like', '%' . $searchTerm . '%');
-        })
-        ->orWhereHas('subject', function ($query) use ($searchTerm) {
-            $query->where('name', 'like', '%' . $searchTerm . '%')
-                ->orWhereHas('course', function ($q) use ($searchTerm) {
-                    $q->where('name', 'like', '%' . $searchTerm . '%');
-                });
-        })
-        ->get();
+        if (empty($searchTerm) || strlen($searchTerm) < 3) {
+            return $this->getAll();
+        }
+
+        return Roombooking::with(['classroom', 'professor', 'subject.course'])
+            ->whereHas('professor', function ($query) use ($searchTerm) {
+                $query->where('name', 'like', '%' . $searchTerm . '%');
+            })
+            ->orWhereHas('subject', function ($query) use ($searchTerm) {
+                $query->where('name', 'like', '%' . $searchTerm . '%')
+                    ->orWhereHas('course', function ($q) use ($searchTerm) {
+                        $q->where('name', 'like', '%' . $searchTerm . '%');
+                    });
+            })
+            ->get();
     }
+
     
     public function getByDateRange(string $startDate, string $endDate): Collection
     {
