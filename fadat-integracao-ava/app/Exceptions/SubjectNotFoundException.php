@@ -12,7 +12,7 @@ class SubjectNotFoundException extends Exception
 {
     public function __construct()
     {
-        parent::__construct("Disciplina não encontrada.");
+        parent::__construct("• Disciplina não encontrada.");
     }
 
     public function report(): void
@@ -29,7 +29,7 @@ class SubjectNotFoundException extends Exception
         }
 
         return back()
-            ->withErrors(['subject' => $this->getMessage()])
+            ->withErrors(['subject_found' => $this->getMessage()])
             ->onlyInput();
     }
 }

@@ -12,7 +12,7 @@ class ProfessorAlreadyCreated extends Exception
 {
     public function __construct()
     {
-        parent::__construct("Professor já criado.");
+        parent::__construct("• Professor já criado.");
     }
 
     public function report():void

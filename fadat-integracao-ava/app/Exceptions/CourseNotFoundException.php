@@ -12,7 +12,7 @@ class CourseNotFoundException extends Exception
 {
     public function __construct()
     {
-        parent::__construct("Curso não encontrado.");
+        parent::__construct("• Curso não encontrado.");
     }
 
     public function report():void

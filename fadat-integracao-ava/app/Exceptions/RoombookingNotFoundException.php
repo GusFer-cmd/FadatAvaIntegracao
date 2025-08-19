@@ -12,7 +12,7 @@ class RoombookingNotFoundException extends Exception
 {
     public function __construct()
     {
-        parent::__construct("Agendamento não encontrado.");
+        parent::__construct("• Agendamento não encontrado.");
     }
 
     public function report():void

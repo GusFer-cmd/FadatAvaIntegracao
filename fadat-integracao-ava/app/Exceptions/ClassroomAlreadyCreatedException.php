@@ -8,11 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 
-class CourseAlreadyCreated extends Exception
+class ClassroomAlreadyCreatedException extends Exception
 {
     public function __construct()
     {
-        parent::__construct("Curso já criado.");
+        parent::__construct("• Sala já criada.");
     }
 
     public function report():void
@@ -28,7 +28,7 @@ class CourseAlreadyCreated extends Exception
         }
 
         return back()
-            ->withErrors(['course_not_found' => $this->getMessage()])
+            ->withErrors(['classroom_not_found' => $this->getMessage()])
             ->onlyInput();
     }
 

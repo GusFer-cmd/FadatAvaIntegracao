@@ -12,7 +12,7 @@ class ProfessorConflictException extends Exception
 {
     public function __construct()
     {
-        parent::__construct("O professor já possui um agendamento nesse horário.");
+        parent::__construct("• O professor já possui um agendamento nesse horário.");
     }
 
     public function report(): void

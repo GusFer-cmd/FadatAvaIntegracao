@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Exceptions\ClassroomAlreadyCreated;
+use App\Exceptions\ClassroomAlreadyCreatedException;
 use App\Exceptions\ClassroomNotFoundException;
 use App\Models\Classroom;
 use App\Repositories\Interfaces\IClassroomRepository;
@@ -35,7 +35,7 @@ class ClassroomService
     {
         $exists = $this->repository->exists($data['class_number'], $data['academic_building']);
         if ($exists)
-            throw new ClassroomAlreadyCreated();
+            throw new ClassroomAlreadyCreatedException();
 
         $classroom = $this->repository->create($data);
 

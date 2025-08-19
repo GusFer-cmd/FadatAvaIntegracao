@@ -8,11 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 
-class SubjectAlreadyCreated extends Exception
+class SubjectAlreadyCreatedException extends Exception
 {
     public function __construct()
     {
-        parent::__construct("Disciplina já criada.");
+        parent::__construct("• Disciplina já criada.");
     }
 
     public function report(): void

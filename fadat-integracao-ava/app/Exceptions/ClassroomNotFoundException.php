@@ -12,7 +12,7 @@ class ClassroomNotFoundException extends Exception
 {
     public function __construct()
     {
-        parent::__construct("Sala não encontrada.");
+        parent::__construct("• Sala não encontrada.");
     }
 
     public function report():void

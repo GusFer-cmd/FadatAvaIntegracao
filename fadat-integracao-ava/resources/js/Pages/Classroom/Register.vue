@@ -60,6 +60,9 @@ const submit = () => {
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <form @submit.prevent="submit" class="space-y-4">
+                    <div v-if="form.errors.classroom_not_found" class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg">
+                        {{ form.errors.classroom_not_found }}
+                    </div>
                     <div class="mx-4 space-y-4">
                         <div>
                             <InputLabel for="class_number" value="Numero da Sala" class="text-white" />

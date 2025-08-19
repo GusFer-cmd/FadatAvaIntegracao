@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Exceptions\CourseAlreadyCreated;
+use App\Exceptions\CourseAlreadyCreatedException;
 use App\Exceptions\CourseNotFoundException;
 use App\Models\Course;
 use App\Repositories\Interfaces\ICourseRepository;
@@ -35,7 +35,7 @@ class CourseService
     {
         $exists = $this->repository->exists($data['name']);
         if ($exists)
-            throw new CourseAlreadyCreated();
+            throw new CourseAlreadyCreatedException();
 
         $course = $this->repository->create($data);
 

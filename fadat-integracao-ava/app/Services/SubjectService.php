@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Exceptions\SubjectNotFoundException;
+use App\Exceptions\SubjectAlreadyCreatedException;
 use App\Exceptions\CourseNotFoundException;
 use App\Models\Subject;
 use App\Repositories\Interfaces\ISubjectRepository;
@@ -44,7 +45,7 @@ class SubjectService
     {
         $exists = $this->repository->exists($data['name']);
         if ($exists)
-            throw new SubjectNotFoundException();
+            throw new SubjectAlreadyCreatedException();
 
         return $this->repository->create($data);
     }
