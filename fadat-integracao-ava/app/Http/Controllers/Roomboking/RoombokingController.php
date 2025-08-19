@@ -125,7 +125,7 @@ class RoombokingController extends Controller
             'subject_id' => $request->subject_id,
             'classroom_id' => $request->classroom_id,
         ];
-
+        
         $roombooking = $roombookingService->update($data);
 
         Log::info('Agendamento de sala atualizado com sucesso: ' . $roombooking->id);

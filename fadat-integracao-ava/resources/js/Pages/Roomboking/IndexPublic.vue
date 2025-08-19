@@ -108,7 +108,7 @@ function changePage(page) {
                                     </thead>
                                     <tbody class="block sm:table-row-group">
                                         <tr
-                                            v-for="roombooking in paginatedBookings"
+                                            v-for="roombooking in filteredBookings"
                                             :key="roombooking.id"
                                             class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition block sm:table-row mb-4 sm:mb-0"
                                         >
@@ -145,7 +145,7 @@ function changePage(page) {
                                 </table>
                             </div>
 
-                            <div class="flex justify-center items-center gap-2 mt-6">
+                            <!-- <div class="flex justify-center items-center gap-2 mt-6">
                                 <button 
                                     @click="changePage(currentPage - 1)" 
                                     :disabled="currentPage === 1"
@@ -173,7 +173,7 @@ function changePage(page) {
                                 >
                                     <ArrowRight class="w-4 h-4" />
                                 </button>
-                            </div>
+                            </div> -->
 
                         </div>
                     </div>

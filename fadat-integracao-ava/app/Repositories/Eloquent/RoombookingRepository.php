@@ -28,30 +28,35 @@ class RoombookingRepository implements IRoombookingRepository
     {
         $query = Roombooking::query();
 
-        $query->where(function($q) use ($dayOfWeek, $startTime, $endTime, $classroomId) {
-            if ($classroomId) {
+        if ($classroomId) {
+            $query->orWhere(function($q) use ($dayOfWeek, $startTime, $endTime, $classroomId, $excludeId) {
                 $q->where('day_of_week', $dayOfWeek)
                 ->where('classroom_id', $classroomId)
                 ->where('start_time', '<', $endTime)
                 ->where('end_time', '>', $startTime);
-            }
-        });
 
-        $query->orWhere(function($q) use ($dayOfWeek, $startTime, $endTime, $professorId) {
-            if ($professorId) {
+                if ($excludeId) {
+                    $q->where('id', '<>', $excludeId);
+                }
+            });
+        }
+
+        if ($professorId) {
+            $query->orWhere(function($q) use ($dayOfWeek, $startTime, $endTime, $professorId, $excludeId) {
                 $q->where('day_of_week', $dayOfWeek)
                 ->where('professor_id', $professorId)
                 ->where('start_time', '<', $endTime)
                 ->where('end_time', '>', $startTime);
-            }
-        });
 
-        if ($excludeId) {
-            $query->where('id', '<>', $excludeId);
+                if ($excludeId) {
+                    $q->where('id', '<>', $excludeId);
+                }
+            });
         }
 
         return $query->get();
     }
+
 
     public function getByProfessorId(string $professorId): Collection
     {
