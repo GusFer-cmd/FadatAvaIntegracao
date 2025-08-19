@@ -79,7 +79,7 @@ const formatHour = (time) => {
             </div> -->
             <div class="flex flex-col">
                 <div class="flex justify-center ">
-                    <img src="/images/logoFADAT.png" alt="Logo FADAT" style="max-width:420px;" />
+                    <img src="/images/logoFADAT.png" alt="Logo FADAT" class="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl w-full h-auto" />
                 </div>
                 
                 <div class="py-12">

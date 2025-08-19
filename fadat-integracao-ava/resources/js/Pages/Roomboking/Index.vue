@@ -50,6 +50,9 @@ const formatHour = (time) => {
     <Head title="Roombooking Index" />
 
     <AuthenticatedLayout>
+        <div class="flex justify-center mt-8">
+            <img src="/images/logoFADAT.png" alt="Logo FADAT" class="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl w-full h-auto" />
+        </div>
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 p-6 text-gray-900 dark:text-gray-100">
